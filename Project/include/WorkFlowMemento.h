@@ -1,15 +1,17 @@
 #ifndef WORKFLOWMEMENTO_H
 #define WORKFLOWMEMENTO_H
-#include "WorkFlowState.h"
+#include "WorkItemState.h"
+#include "map"
+#include "string"
 
 class WorkFlowMemento{
 
 public:
-    WorkFlowState getState();
-    void setState(WorkFlowState state);
+    std::map<std::string, WorkItemState*> getState();
+    void setState(std::map<std::string, WorkItemState*> state);
 
 private:
-    map<WorkItemState*> state;
+    std::map<std::string, WorkItemState*> state;
 
 };
 
