@@ -12,11 +12,11 @@ private:
 public:
     WorkFlowComponent();
     ~WorkFlowComponent();
-    virtual WorkFlowMemento createMemento();
-    virtual void SetMemento(WorkFlowMemento memento);
+    virtual WorkFlowMemento createMemento() = 0;
+    virtual void setMemento(WorkFlowMemento *memento) = 0;
     virtual void setState(WorkItemState *s) = 0;
     virtual WorkItemState *getState() = 0;
-    virtual std::vector<WorkItemState *> getChildrenState() = 0;
+    virtual std::vector<WorkFlowComponent *> getChildren() = 0;
     virtual std::string getName() = 0;
     virtual void review(WorkItemState *s) = 0;
     virtual void approve(WorkItemState *s) = 0;

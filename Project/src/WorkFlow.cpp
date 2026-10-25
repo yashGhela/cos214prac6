@@ -70,12 +70,12 @@ WorkItemState *WorkFlow::getState()
     return this->state;
 }
 
-std::vector<WorkItemState *> WorkFlow::getChildrenState()
+std::vector<WorkFlowComponent *> WorkFlow::getChildren()
 {
-    std::vector<WorkItemState *> v;
+    std::vector<WorkFlowComponent *> v;
     for (auto *child : this->children)
     {
-        v.push_back(child->getState());
+        v.push_back(child);
     }
     return v;
 }
