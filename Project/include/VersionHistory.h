@@ -7,7 +7,9 @@
 class VersionHistory : public Aggregate{
 
 public:
+    ~VersionHistory();
     Iterator* createIterator() override;
+    void addMemento(int version, WorkFlowMemento* memento);
 
 private:
     std::map<int, WorkFlowMemento*> mementos;
