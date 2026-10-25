@@ -1,15 +1,16 @@
 #ifndef VERSIONHISTORY_H
 #define VERSIONHISTORY_H
 #include "WorkFlowMemento.h"
-#include "Iterator.h"
+#include "Aggregate.h"
+#include "map"
 
 class VersionHistory : public Aggregate{
 
 public:
-    Iterator* createIterator();
+    Iterator* createIterator() override;
 
 private:
-    map<WorkFlowMemento> mementos;
+    std::map<int, WorkFlowMemento*> mementos;
 
 };
 
