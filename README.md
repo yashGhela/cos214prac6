@@ -4,7 +4,7 @@
 # Content
 
 - [Important Documents](#documents)
-- [Important Documents](#members)
+- [Team member](#members)
 
 
 # Introduction
