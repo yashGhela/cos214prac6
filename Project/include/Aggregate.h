@@ -5,7 +5,8 @@
 class Aggregate{
 
 public:
-   virtual Iterator* createIterator() = 0;
+    virtual ~Aggregate(){}
+    virtual Iterator* createIterator() = 0;
 
 };
 
