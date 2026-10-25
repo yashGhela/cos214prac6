@@ -11,8 +11,8 @@ void VersionIterator::first(){
 bool VersionIterator::isDone(){
     return current ==versions->end();
 }
-WorkFlowMemento* VersionIterator::currentItem(){
-    if (isDone()) {
+VersionHistory* VersionIterator::currentItem(){
+    if(isDone()){
         return nullptr;
     }
     return current->second;
