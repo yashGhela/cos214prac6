@@ -7,16 +7,16 @@
 #include <vector>
 
 using namespace std;
+class WorkflowComponent;
 
 class EventSubject{
 private:
     vector<WorkFlowObserver*> observerList;
 public:
-    virtual void Attach(WorkFlowObserver* observer)=0;
-    virtual void Detach(WorkFlowObserver* observer)=0;
-    virtual void notify()=0;
+    virtual void Attach(WorkFlowObserver* observer);
+    virtual void Detach(WorkFlowObserver* observer);
+    virtual void notify(Event event,WorkflowComponent* source);
     virtual ~EventSubject();
-
 };
 
 #endif

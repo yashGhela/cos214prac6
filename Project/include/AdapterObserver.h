@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "EventSubject.h"
+#include "WorkFlowObserver.h"
 
-class AdapterObserver{
+class AdapterObserver: public WorkFlowObserver{
 private:
 public:
     virtual ~AdapterObserver();
