@@ -80,23 +80,32 @@ std::vector<WorkItemState *> WorkFlow::getChildrenState()
     return v;
 }
 
-void WorkFlow::review()
+std::string WorkFlow::getName()
 {
-    this->state->review();
+    return this->name;
 }
-void WorkFlow::approve()
+
+void WorkFlow::review(WorkItemState *s)
 {
-    this->state->approve();
+    this->state->review(this);
 }
-void WorkFlow::cancel()
+
+void WorkFlow::approve(WorkItemState *s)
 {
-    this->state->cancel();
+    this->state->approve(this);
 }
-void WorkFlow::finish()
+
+void WorkFlow::cancel(WorkItemState *s)
 {
-    this->state->finish();
+    this->state->cancel(this);
 }
-void WorkFlow::beginWork()
+
+void WorkFlow::finish(WorkItemState *s)
 {
-    this->state->beginWork();
+    this->state->finish(this);
+}
+
+void WorkFlow::beginWork(WorkItemState *s)
+{
+    this->state->beginWork(this);
 }

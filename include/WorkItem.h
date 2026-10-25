@@ -19,11 +19,12 @@ public:
     Participant *getParticipant();
     void setParticipant(Participant *p);
     void update();
-    void review();
-    void approve();
-    void cancel();
-    void finish();
-    void beginWork();
+    std::string getName() override;
+    void review(WorkItemState *s) override;
+    void approve(WorkItemState *s) override;
+    void cancel(WorkItemState *s) override;
+    void finish(WorkItemState *s) override;
+    void beginWork(WorkItemState *s) override;
 };
 
 #endif

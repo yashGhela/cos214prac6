@@ -17,6 +17,7 @@ WorkFlowMemento WorkItem::createMemento()
     m->setState(this->state);
     m->setParticipant(this->assignedParticipant);
 }
+
 void WorkItem::setMemento(WorkFlowMemento *m)
 {
     this->assignedParticipant = nullptr;
@@ -28,40 +29,53 @@ void WorkItem::setState(WorkItemState *s)
 {
     this->state = s;
 }
+
 WorkItemState *WorkItem::getState()
 {
     return this->state;
 }
+
 Participant *WorkItem::getParticipant()
 {
     return this->assignedParticipant;
 }
+
 void WorkItem::setParticipant(Participant *p)
 {
     this->assignedParticipant = p;
 }
+
 void WorkItem::update()
 {
     // STILL NEEDS TO BE IMPLEMENTED
 }
 
-void WorkItem::review()
+std::string WorkItem::getName()
 {
-    this->state->review();
+    return this->name;
 }
-void WorkItem::approve()
+
+void WorkItem::review(WorkItemState *s)
 {
-    this->state->approve();
+    this->state->review(this);
 }
-void WorkItem::cancel()
+
+void WorkItem::approve(WorkItemState *s)
 {
-    this->state->cancel();
+    this->state->approve(this);
 }
-void WorkItem::finish()
+
+void WorkItem::cancel(WorkItemState *s)
 {
-    this->state->finish();
+    this->state->cancel(this);
 }
-void WorkItem::beginWork()
+
+void WorkItem::finish(WorkItemState *s)
 {
-    this->state->beginWork();
+    this->state->finish(this);
+}
+
+void WorkItem::beginWork(WorkItemState *s)
+{
+    this->state->beginWork(this);
 }
