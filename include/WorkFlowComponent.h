@@ -17,5 +17,17 @@ public:
     virtual void SetMemento(WorkFlowMemento memento);
     virtual void setState(WorkItemState *s) = 0;
     virtual WorkItemState *getState() = 0;
+    virtual void review() = 0;
+    virtual void approve() = 0;
+    virtual void cancel() = 0;
+    virtual void finish() = 0;
+    virtual void beginWork() = 0;
 };
+WorkFlowComponent::WorkFlowComponent()
+{
+}
+
+WorkFlowComponent::~WorkFlowComponent()
+{
+}
 #endif

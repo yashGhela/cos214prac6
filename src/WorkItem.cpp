@@ -23,10 +23,7 @@ void WorkItem::setMemento(WorkFlowMemento *m)
     this->assignedParticipant = m->getParticipant();
     this->state = m->getState();
 }
-void WorkItem::request()
-{
-    this->state->handle();
-}
+
 void WorkItem::setState(WorkItemState *s)
 {
     this->state = s;
@@ -46,4 +43,25 @@ void WorkItem::setParticipant(Participant *p)
 void WorkItem::update()
 {
     // STILL NEEDS TO BE IMPLEMENTED
+}
+
+void WorkItem::review()
+{
+    this->state->review();
+}
+void WorkItem::approve()
+{
+    this->state->approve();
+}
+void WorkItem::cancel()
+{
+    this->state->cancel();
+}
+void WorkItem::finish()
+{
+    this->state->finish();
+}
+void WorkItem::beginWork()
+{
+    this->state->beginWork();
 }

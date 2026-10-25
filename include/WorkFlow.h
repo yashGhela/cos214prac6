@@ -15,12 +15,16 @@ public:
     bool addChild(WorkFlowComponent *c);
     WorkFlowComponent *removeChild(WorkFlowComponent *c);
     WorkFlowMemento createMemento();
-    void SetMemento(WorkFlowMemento *m);
-    void request();
+    void setMemento(WorkFlowMemento *m);
     void setState(WorkItemState *s);
     WorkItemState *getState();
     Iterator *createIterator();
     std::vector<WorkItemState *> getChildrenState();
+    void review();
+    void approve();
+    void cancel();
+    void finish();
+    void beginWork();
 };
 
 #endif

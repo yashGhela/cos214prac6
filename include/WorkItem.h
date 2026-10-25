@@ -14,12 +14,16 @@ public:
     ~WorkItem();
     WorkFlowMemento createMemento();
     void setMemento(WorkFlowMemento *m);
-    void request();
     void setState(WorkItemState *s);
     WorkItemState *getState();
     Participant *getParticipant();
     void setParticipant(Participant *p);
     void update();
+    void review();
+    void approve();
+    void cancel();
+    void finish();
+    void beginWork();
 };
 
 #endif
