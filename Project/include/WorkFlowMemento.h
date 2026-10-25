@@ -1,8 +1,9 @@
 #ifndef WORKFLOWMEMENTO_H
 #define WORKFLOWMEMENTO_H
-#include "WorkItemState.h"
 #include "map"
 #include "string"
+
+class WorkItemState;
 
 class WorkFlowMemento{
 
