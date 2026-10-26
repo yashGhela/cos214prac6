@@ -7,11 +7,12 @@ class WorkItemState;
 
 class WorkFlowMemento{
 
-public:
-    std::map<std::string, WorkItemState*> getState();
-    void setState(std::map<std::string, WorkItemState*> state);
+    friend class WorkFlow;
+    friend class WorkItem;
 
 private:
+    std::map<std::string, WorkItemState*> getState();
+    void setState(std::map<std::string, WorkItemState*> state);
     std::map<std::string, WorkItemState*> state;
 
 };
