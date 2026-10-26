@@ -1,7 +1,7 @@
 #include "Member.h"
 
 void Member::doWork() override{
-    //not really sure what to add here yet till everyone else is done
+    this->performWork();
 }
 
 void Member::getWork() override{
