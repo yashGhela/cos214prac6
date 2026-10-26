@@ -6,7 +6,7 @@
 #include "Event.h"
 #include "ProcessHandler.h"
 
-class Event;
+
 class WorkFlowComponent;
 class WorkItem;
 

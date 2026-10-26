@@ -4,7 +4,7 @@
 #include "WorkItem.h"
 #include "Event.h"
 
-class Event;
+
 class WorkFlowComponent;
 class WorkItem;
 
