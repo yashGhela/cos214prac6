@@ -14,12 +14,12 @@ public:
     ~WorkFlow();
     bool addChild(WorkFlowComponent *c);
     WorkFlowComponent *removeChild(WorkFlowComponent *c);
-    WorkFlowMemento createMemento();
-    void setMemento(WorkFlowMemento *m);
-    void setState(WorkItemState *s);
-    WorkItemState *getState();
+    WorkFlowMemento createMemento() override;
+    void setMemento(WorkFlowMemento *m) override;
+    void setState(WorkItemState *s) override;
+    WorkItemState *getState() override;
     Iterator *createIterator();
-    std::vector<WorkItemState *> getChildrenState();
+    std::vector<WorkFlowComponent *> getChildren() override;
     std::string getName() override;
     void review(WorkItemState *s) override;
     void approve(WorkItemState *s) override;

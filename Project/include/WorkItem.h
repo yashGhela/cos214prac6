@@ -12,10 +12,10 @@ private:
 public:
     WorkItem(std::string n);
     ~WorkItem();
-    WorkFlowMemento createMemento();
-    void setMemento(WorkFlowMemento *m);
-    void setState(WorkItemState *s);
-    WorkItemState *getState();
+    WorkFlowMemento createMemento() override;
+    void setMemento(WorkFlowMemento *m) override;
+    void setState(WorkItemState *s) override;
+    WorkItemState *getState() override;
     Participant *getParticipant();
     void setParticipant(Participant *p);
     void update();
