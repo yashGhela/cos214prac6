@@ -10,6 +10,7 @@ public:
     ~VersionHistory();
     Iterator* createIterator() override;
     void addMemento(int version, WorkFlowMemento* memento);
+    WorkFlowMemento *getMemento(int version);
 
 private:
     std::map<int, WorkFlowMemento*> mementos;
