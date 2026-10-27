@@ -12,7 +12,7 @@ private:
 public:
     WorkFlowComponent();
     ~WorkFlowComponent();
-    virtual WorkFlowMemento createMemento() = 0;
+    virtual WorkFlowMemento* createMemento() = 0;
     virtual void setMemento(WorkFlowMemento *memento) = 0;
     virtual void setState(WorkItemState *s) = 0;
     virtual WorkItemState *getState() = 0;

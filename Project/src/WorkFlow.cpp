@@ -37,22 +37,29 @@ WorkFlowComponent *WorkFlow::removeChild(WorkFlowComponent *c)
     return nullptr;
 }
 
-WorkFlowMemento WorkFlow::createMemento()
-{
-    WorkFlowMemento *m = new WorkFlowMemento(state);
-    m->setState(this->state);
-    m->setChildren(this->children);
+WorkFlowMemento* WorkFlow::createMemento() {
+    WorkFlowMemento* m = new WorkFlowMemento();
+    std::map<std::string, WorkItemState*> snap;
+    snap[name] = state;                              
+
+    for (auto* child : *getChildren()) {
+        WorkFlowMemento* cm = child->createMemento();  
+        auto childSnap = cm->getState();
+        snap.insert(childSnap.begin(), childSnap.end()); 
+        delete cm;
+    }
+
+    m->setState(snap);                              
+    return m;
 }
 
-void WorkFlow::setMemento(WorkFlowMemento *m)
-{
-    for (auto *child : this->children)
-    {
-        delete child;
-    }
-    this->children.clear();
-    this->state = m->getState();
-    this->children = m->getChildren();
+void WorkFlow::setMemento(WorkFlowMemento* m) {
+    auto snap = m->getState();
+    auto it = snap.find(name);
+    if (it != snap.end()) setState(it->second);      
+
+    for (auto* child : *getChildren())
+        child->setMemento(m);                        
 }
 
 Iterator *WorkFlow::createIterator()
