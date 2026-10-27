@@ -8,7 +8,7 @@
 template <typename T>
 void ProcessHandlerTemplate<T>::process(WorkItem& item){
 
-    InProgressState *i = new InProgressState(item);
+   
     item->beginWork(item->getState());
     
 
