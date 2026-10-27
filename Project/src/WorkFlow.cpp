@@ -59,7 +59,8 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
 {
     auto snap = m->getState();
     auto it = snap.find(name);
-    if (it != snap.end()) setState(it->second);      
+    if (it != snap.end())
+        setState(it->second);
 
     for (auto *child : getChildren())
         child->setMemento(m);
