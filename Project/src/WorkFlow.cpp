@@ -42,7 +42,7 @@ WorkFlowMemento* WorkFlow::createMemento() {
     std::map<std::string, WorkItemState*> snap;
     snap[name] = state;                              
 
-    for (auto* child : *getChildren()) {
+    for (auto* child : getChildren()) {
         WorkFlowMemento* cm = child->createMemento();  
         auto childSnap = cm->getState();
         snap.insert(childSnap.begin(), childSnap.end()); 
@@ -58,7 +58,7 @@ void WorkFlow::setMemento(WorkFlowMemento* m) {
     auto it = snap.find(name);
     if (it != snap.end()) setState(it->second);      
 
-    for (auto* child : *getChildren())
+    for (auto* child : getChildren())
         child->setMemento(m);                        
 }
 
