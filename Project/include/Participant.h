@@ -27,6 +27,11 @@ class Participant{
         }
     }
 
+
+    std::string getName() const;
+
+
+    std::string Participant::getName() const { return part_name; }
     void setChain(WorkHandler* head) { chain = head; }
     void assignWork(WorkItem* item)  { assignedWork[item->getName()] = item; }
 
