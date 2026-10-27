@@ -10,4 +10,4 @@ class Member: public Participant{
     void getWork() override;
     void submitWork() override;
 
-}
+};
