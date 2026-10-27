@@ -1,9 +1,10 @@
 #include "Team.h"
 #include "Participant.h"
 
-void Team::addMember(std::unique_ptr<Participant> p) {
-        teamMembers[p->name()] = std::move(p);
-    }
+void Team::addMember(Participant* p) {
+    if (!p) return;
+    teamMembers[p->getName()] = p;
+}
 void Team::removeMember(const std::string& name) { teamMembers.erase(name); }
 
 
