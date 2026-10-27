@@ -17,10 +17,9 @@ class HandlerTemplate: public WorkHandler{
     ProcessHandler* processHandler;
     public:
 
-    explicit HandlerTemplate(ProcessHandler *ph = nullptr) : processHandler(ph) {}
+    HandlerTemplate(ProcessHandler *ph = nullptr) : processHandler(ph) {}
 
-    void update(const Event& event, WorkFlowComponent* source) override 
-
+    void update(const Event& event, WorkFlowComponent* source) override ;
     bool handleRequest(WorkItem& item) override;
     void process(WorkItem& item) override{
         if (processHandler) processHandler->process(item);
@@ -28,3 +27,4 @@ class HandlerTemplate: public WorkHandler{
 
 
 };
+

@@ -21,7 +21,6 @@ class Team: public Participant{
 
    void submitWork() override;
 
-   bool hasRole() const override;
-
+ 
    
 };

@@ -14,7 +14,7 @@ public:
     ~WorkFlow();
     bool addChild(WorkFlowComponent *c);
     WorkFlowComponent *removeChild(WorkFlowComponent *c);
-    WorkFlowMemento createMemento() override;
+    WorkFlowMemento* createMemento() override;
     void setMemento(WorkFlowMemento *m) override;
     void setState(WorkItemState *s) override;
     WorkItemState *getState() override;

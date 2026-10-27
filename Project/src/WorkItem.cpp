@@ -11,18 +11,18 @@ WorkItem::~WorkItem()
     this->assignedParticipant = nullptr;
 }
 
-WorkFlowMemento WorkItem::createMemento()
-{
-    WorkFlowMemento *m = new WorkFlowMemento(state);
-    m->setState(this->state);
-    m->setParticipant(this->assignedParticipant);
+WorkFlowMemento* WorkItem::createMemento() {
+    WorkFlowMemento* m = new WorkFlowMemento();
+    std::map<std::string, WorkItemState*> snap;
+    snap[name] = state;
+    m->setState(snap);
+    return m;
 }
 
-void WorkItem::setMemento(WorkFlowMemento *m)
-{
-    this->assignedParticipant = nullptr;
-    this->assignedParticipant = m->getParticipant();
-    this->state = m->getState();
+void WorkItem::setMemento(WorkFlowMemento* m) {
+    auto snap = m->getState();
+    auto it = snap.find(name);
+    if (it != snap.end()) setState(it->second);
 }
 
 void WorkItem::setState(WorkItemState *s)
