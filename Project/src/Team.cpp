@@ -5,6 +5,8 @@ void Team::addMember(Participant* p) {
     if (!p) return;
     teamMembers[p->getName()] = p;
 }
+
+
 void Team::removeMember(const std::string& name) { teamMembers.erase(name); }
 
 

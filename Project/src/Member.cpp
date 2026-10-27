@@ -1,18 +1,32 @@
 #include "Member.h"
 #include "FinishedState.h"
 
+void Member::performWork(){
+    if(!chain || !chain->handleRequest(*memberWork)){
+                std::cout<<name<<": nobody can handle this item "<<memberWork->getName() <<"\n";
+    }
+}
+
 void Member::doWork() {
     this->performWork();
 }
 
 void Member::getWork() {
-    //not really sure what to add here yet till everyone else is done
+    for (auto& [id,item]: assignedWork)
+    {
+        if(item && item->getParticipant()==nullptr){
+            item->setParticipant(this);
+            memberWork=item;
+            return;
+        }
+    }
+    
 }
 
 void Member::submitWork() {
-    for(auto& [id,item]: assignedWork){
-        FinishedState *f = new FinishedState(item);
+    
+    FinishedState *f = new FinishedState(memberWork);
         
-        item->setState(f);
-        }
+    memberWork->setState(f);
+
 }
