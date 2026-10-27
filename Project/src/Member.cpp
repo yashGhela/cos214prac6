@@ -25,8 +25,7 @@ void Member::getWork() {
 
 void Member::submitWork() {
     
-    FinishedState *f = new FinishedState(memberWork);
-        
-    memberWork->setState(f);
+ 
+    memberWork->finish(memberWork->getState());
 
 }

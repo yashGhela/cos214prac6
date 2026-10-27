@@ -9,7 +9,7 @@ template <typename T>
 void ProcessHandlerTemplate<T>::process(WorkItem& item){
 
     InProgressState *i = new InProgressState(item);
-    item.setState(i);
+    item->beginWork(item->getState());
     
 
 
