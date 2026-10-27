@@ -11,18 +11,21 @@ WorkItem::~WorkItem()
     this->assignedParticipant = nullptr;
 }
 
-WorkFlowMemento* WorkItem::createMemento() {
-    WorkFlowMemento* m = new WorkFlowMemento();
-    std::map<std::string, WorkItemState*> snap;
+WorkFlowMemento *WorkItem::createMemento()
+{
+    WorkFlowMemento *m = new WorkFlowMemento();
+    std::map<std::string, WorkItemState *> snap;
     snap[name] = state;
     m->setState(snap);
     return m;
 }
 
-void WorkItem::setMemento(WorkFlowMemento* m) {
+void WorkItem::setMemento(WorkFlowMemento *m)
+{
     auto snap = m->getState();
     auto it = snap.find(name);
-    if (it != snap.end()) setState(it->second);
+    if (it != snap.end())
+        setState(it->second);
 }
 
 void WorkItem::setState(WorkItemState *s)
@@ -45,9 +48,16 @@ void WorkItem::setParticipant(Participant *p)
     this->assignedParticipant = p;
 }
 
-void WorkItem::update()
+void WorkItem::update(Event event, WorkFlowComponent *source)
 {
     // STILL NEEDS TO BE IMPLEMENTED
+}
+
+std::vector<WorkFlowComponent *> WorkItem::getChildren()
+{
+    std::vector<WorkFlowComponent *> v;
+    v.push_back(this);
+    return v;
 }
 
 std::string WorkItem::getName()
