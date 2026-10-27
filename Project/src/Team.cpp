@@ -1,31 +1,31 @@
 #include "Team.h"
-
+#include "Participant.h"
 
 void Team::addMember(std::unique_ptr<Participant> p) {
-        teamMembers_[p->name()] = std::move(p);
+        teamMembers[p->name()] = std::move(p);
     }
-void Team::removeMember(const std::string& name) { teamMembers_.erase(name); }
+void Team::removeMember(const std::string& name) { teamMembers.erase(name); }
 
 
-void Team::doWork() override{
+void Team::doWork() {
     for(const auto& [_,t]:teamMembers){
         t->doWork();
     }
 }
 
-void Team::getWork() override{
+void Team::getWork() {
     for(const auto& [_,t]:teamMembers){
         t->getWork();
     }
 }
 
-void Team::submitWork() override{
+void Team::submitWork() {
     for(const auto& [_,t]:teamMembers){
         t->submitWork();
     }
 }
 
-bool hasRole(const std::string& role) const override {
-        for (auto& [_, m] : teamMembers_) if (m->hasRole(role)) return true;
-        return Participant::hasRole(role);
-    }
+// bool hasRole(const std::string& role)  {
+//         for (auto& [_, m] : teamMembers) if (m->hasRole(role)) return true;
+//         return Participant::hasRole(role);
+//     }

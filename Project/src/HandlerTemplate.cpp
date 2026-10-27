@@ -1,7 +1,9 @@
 #include "WorkHandler.h"
+#include "HandlerTemplate.h"
 
 
-bool WorkHandler::handleRequest(WorkItem& item) override{
+template <typename T>
+bool HandlerTemplate<T>::handleRequest(WorkItem& item){
 
     if(item){
         process(item);
@@ -9,6 +11,6 @@ bool WorkHandler::handleRequest(WorkItem& item) override{
     
     }
 
-    return successor ? successor->handleRequest(item) : false;
+    return WorkHandler::successor ? WorkHandler::successor->handleRequest(item) : false;
 
 }
