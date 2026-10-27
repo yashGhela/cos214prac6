@@ -2,6 +2,7 @@
 #define EVENTSUBJECT_H
 
 #include "WorkFlowObserver.h"
+#include "Event.h"
 
 #include <algorithm>
 #include <vector>
