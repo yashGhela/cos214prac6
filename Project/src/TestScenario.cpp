@@ -3,6 +3,8 @@
 #include "WorkItem.h"
 #include "CreatedState.h"
 #include "TIVIDYFacade.h"
+#include "Team.h"
+#include "Member.h"
 using namespace std;
 
 int main(){
@@ -11,6 +13,30 @@ int main(){
 
     WorkFlow* wf = new WorkFlow("KeyFraming");
 
-    WorkItem* a = new WorkItem("Map out the time stops");
+    WorkItem* a = new WorkItem();
+
+    WorkItem* b = new WorkItem();
+
+    wf->addChild(a);
+    wf->addChild(b);
+
+    Team *team = new Team("Key Frame Team");
+
+    Member* c = new Member("Peter Parker");
+
+    Member* d= new Member("Bruce Wayne");
+
+    team->addMember(c);
+    team->addMember(d);
+
+    a->setParticipant(c);
+    b->setParticipant(d);
+
+    team->doWork();
+
+
+    wf->createMemento();
+
+
 
 }
