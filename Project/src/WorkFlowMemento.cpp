@@ -7,5 +7,5 @@ std::map<std::string, WorkItemState *> WorkFlowMemento::getState()
 
 void WorkFlowMemento::setState(std::map<std::string, WorkItemState *> state)
 {
-    this->state.insert(state);
+    this->state = state;
 }
