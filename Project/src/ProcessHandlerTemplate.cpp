@@ -2,11 +2,14 @@
 #include "WorkItem.h"
 #include "WorkItemState.h"
 #include "FinishedState.h"
+#include "InProgressState.h"
 
-void ProcessHandlerTemplate::process(WorkItem& item) override{
 
-    FinishedState *f = new FinishedState();
-    item.setState(f);
+template <typename T>
+void ProcessHandlerTemplate<T>::process(WorkItem& item){
+
+   
+    item->beginWork(item->getState());
     
 
 

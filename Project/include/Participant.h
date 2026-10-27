@@ -19,7 +19,7 @@ class Participant{
 
     Participant(std::string name): part_name((name)){};
     virtual ~Participant();
-    void performWork(){
+    virtual void performWork(){
         for(auto& [id,item]: assignedWork){
             if(!chain || !chain->handleRequest(*item)){
                 std::cout<<name<<": nobody can handle this item "<<id <<"\n";

@@ -3,10 +3,13 @@
 
 class Member: public Participant{
 
+    WorkItem* memberWork;
+
     public:
 
 
-    Member(std::string name):Participant(name){};;
+    Member(std::string name):Participant(name){};
+    void performWork() override;
     void doWork() override;
     void getWork() override;
     void submitWork() override;
