@@ -4,7 +4,7 @@
 VersionHistory::~VersionHistory()
 {
 
-    for(std::map<int, WorkFlowMemento*>::iterator it = mementos.begin(); it != memetos.end(); ++it)
+    for(std::map<int, WorkFlowMemento*>::iterator it = mementos.begin(); it != mementos.end(); ++it)
     {
         delete it->second;
     }
@@ -19,5 +19,11 @@ Iterator *VersionHistory::createIterator()
 
 void VersionHistory::addMemento(int version, WorkFlowMemento *memento)
 {
-    mementos[version] = memnto;
+    mementos[version] = memento;
+}
+
+WorkFlowMemento* VersionHistory::getMemento(int version)
+{
+    std::map<int, WorkFlowMemento*>::iterator it = mementos.find(version);
+    return it == mementos.end() ? nullptr : it->second;
 }

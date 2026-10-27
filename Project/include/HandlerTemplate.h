@@ -21,8 +21,9 @@ class HandlerTemplate: public WorkHandler{
 
     void update(const Event& event, WorkFlowComponent* source) override 
 
-    void process() override{
-        if (processHandler) processHandler->process();
+    bool handleRequest(WorkItem& item) override;
+    void process(WorkItem& item) override{
+        if (processHandler) processHandler->process(item);
     }
 
 
