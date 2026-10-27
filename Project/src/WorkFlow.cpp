@@ -43,9 +43,14 @@ WorkFlowMemento *WorkFlow::createMemento()
     std::map<std::string, WorkItemState *> snap;
     snap[name] = state;
 
+<<<<<<< HEAD
     for (auto *child : getChildren())
     {
         WorkFlowMemento *cm = child->createMemento();
+=======
+    for (auto* child : getChildren()) {
+        WorkFlowMemento* cm = child->createMemento();  
+>>>>>>> 586b23d (fixed deferencing error)
         auto childSnap = cm->getState();
         snap.insert(childSnap.begin(), childSnap.end());
         delete cm;
@@ -62,8 +67,13 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
     if (it != snap.end())
         setState(it->second);
 
+<<<<<<< HEAD
     for (auto *child : getChildren())
         child->setMemento(m);
+=======
+    for (auto* child : getChildren())
+        child->setMemento(m);                        
+>>>>>>> 586b23d (fixed deferencing error)
 }
 
 Iterator *WorkFlow::createIterator()
