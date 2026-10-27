@@ -43,9 +43,8 @@ WorkFlowMemento *WorkFlow::createMemento()
     std::map<std::string, WorkItemState *> snap;
     snap[name] = state;
 
-    for (auto *child : getChildren())
-    {
-        WorkFlowMemento *cm = child->createMemento();
+    for (auto* child : getChildren()) {
+        WorkFlowMemento* cm = child->createMemento();  
         auto childSnap = cm->getState();
         snap.insert(childSnap.begin(), childSnap.end());
         delete cm;
@@ -69,8 +68,8 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
 =======
 >>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
 
-    for (auto *child : getChildren())
-        child->setMemento(m);
+    for (auto* child : getChildren())
+        child->setMemento(m);                        
 }
 
 Iterator *WorkFlow::createIterator()
