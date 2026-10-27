@@ -4,16 +4,21 @@
 # Content
 
 - [Important Documents](#documents)
-- [Team member](#members)
+- [Team members + responsibilities](#members)
 
 
 # Introduction
 
+TIVIDY is an intigrated workflow-management system that uses a combination of destinct and meaningfull GoF design patterns
 
 # Documents
 
 # How to demo
 
+In Project directory run:
+  - 
+to clear:
+  -
 # Members
 
 <table>
@@ -25,8 +30,8 @@
     <td>Jayden Smith</td>
     <td>
       <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
+        <li>Facade design pattern</li>
+        <li>Memento design pattern</li>
       </ul>
     </td>
   </tr>
@@ -34,8 +39,9 @@
     <td>Leanne van der Horst</td>
     <td>
       <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
+        <li>Observer design pattern</li>
+        <li>Iterator design pattern</li>
+        <li>TUI</li>
       </ul>
     </td>
   </tr>
@@ -43,8 +49,9 @@
     <td>Yash Ghela</td>
     <td>
       <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
+        <li>Chain of responsibility design pattern</li>
+        <li>Participant composite</li>
+        <li>Work handler startegy</li>
       </ul>
     </td>
   </tr>
@@ -52,8 +59,8 @@
     <td>Rei</td>
     <td>
       <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
+        <li>Decorator design pattern</li>
+        <li>Docker compose + Dockerfile</li>
       </ul>
     </td>
   </tr>
@@ -61,8 +68,8 @@
     <td>Declan Mc Cullough</td>
     <td>
       <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
+        <li>Workflow Composite</li>
+        <li>State design pattern</li>
       </ul>
     </td>
   </tr>

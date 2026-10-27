@@ -10,7 +10,7 @@ class VersionIterator:public Iterator{
         std::map<int, VersionHistory*>* versions;
         std::map<int, VersionHistory*>::iterator current;       
     public:
-        VersionIterator(std::map<int, Memento*>* versions);
+        VersionIterator(std::map<int, VersionHistory*>* versions);
         void next();
         void first();
         bool isDone();
