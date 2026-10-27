@@ -50,6 +50,7 @@ WorkFlowMemento *WorkFlow::createMemento()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
     {
         WorkFlowMemento *cm = child->createMemento();
@@ -63,6 +64,11 @@ WorkFlowMemento *WorkFlow::createMemento()
     for (auto* child : getChildren()) {
         WorkFlowMemento* cm = child->createMemento();  
 >>>>>>> 586b23d (fixed deferencing error)
+=======
+    for (auto *child : getChildren())
+    {
+        WorkFlowMemento *cm = child->createMemento();
+>>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
 =======
     for (auto *child : getChildren())
     {
@@ -101,6 +107,7 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
         child->setMemento(m);
 =======
@@ -113,6 +120,10 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
     for (auto* child : getChildren())
         child->setMemento(m);                        
 >>>>>>> 586b23d (fixed deferencing error)
+=======
+    for (auto *child : getChildren())
+        child->setMemento(m);
+>>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
 =======
     for (auto *child : getChildren())
         child->setMemento(m);
