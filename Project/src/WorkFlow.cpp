@@ -44,6 +44,7 @@ WorkFlowMemento *WorkFlow::createMemento()
     snap[name] = state;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
     {
         WorkFlowMemento *cm = child->createMemento();
@@ -51,6 +52,11 @@ WorkFlowMemento *WorkFlow::createMemento()
     for (auto* child : getChildren()) {
         WorkFlowMemento* cm = child->createMemento();  
 >>>>>>> 586b23d (fixed deferencing error)
+=======
+    for (auto *child : getChildren())
+    {
+        WorkFlowMemento *cm = child->createMemento();
+>>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
         auto childSnap = cm->getState();
         snap.insert(childSnap.begin(), childSnap.end());
         delete cm;
@@ -68,12 +74,17 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
         setState(it->second);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
         child->setMemento(m);
 =======
     for (auto* child : getChildren())
         child->setMemento(m);                        
 >>>>>>> 586b23d (fixed deferencing error)
+=======
+    for (auto *child : getChildren())
+        child->setMemento(m);
+>>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
 }
 
 Iterator *WorkFlow::createIterator()
