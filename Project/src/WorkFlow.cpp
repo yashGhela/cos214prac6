@@ -49,10 +49,13 @@ WorkFlowMemento *WorkFlow::createMemento()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
     {
         WorkFlowMemento *cm = child->createMemento();
 =======
+=======
+>>>>>>> 586b23d (fixed deferencing error)
 =======
 >>>>>>> 586b23d (fixed deferencing error)
 =======
@@ -97,9 +100,12 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     for (auto *child : getChildren())
         child->setMemento(m);
 =======
+=======
+>>>>>>> 586b23d (fixed deferencing error)
 =======
 >>>>>>> 586b23d (fixed deferencing error)
 =======
