@@ -4,27 +4,27 @@
 #include "CancelledState.h"
 #include "ApprovedState.h"
 #include "InProgressState.h"
-class InReviewState : public WorkItemState
+class InReviewState : public WorkItemState // The InReview state used in a WorkFlowComponent, inheriting from the WorkItemState and implementing it.
 {
 private:
     /* data */
 protected:
-    WorkFlowComponent *context;
+    WorkFlowComponent *context; // The WorkFlowComponent that is the context of the current State
 
 public:
-    InReviewState(WorkFlowComponent *c);
-    ~InReviewState();
-    void review(WorkFlow *wf) override;
-    void review(WorkItem *wi) override;
-    void approve(WorkFlow *wf) override;
-    void approve(WorkItem *wi) override;
-    void cancel(WorkFlow *wf) override;
-    void cancel(WorkItem *wi) override;
-    void finish(WorkFlow *wf) override;
-    void finish(WorkItem *wi) override;
-    void beginWork(WorkFlow *wf) override;
-    void beginWork(WorkItem *wi) override;
-    std::string stringStatus() const override;
+    InReviewState(WorkFlowComponent *c);       // Constructor that assigns the context of the InReview state to the WorkFlowComponent that is passed into the function as a parameter.
+    ~InReviewState();                          // Destructor.
+    void review(WorkFlow *wf) override;        // Function that uses double dispatch and reviews the WorkFlow passed as a parameter if its in the correct state to do so.
+    void review(WorkItem *wi) override;        // Function that uses double dispatch and reviews the WorkItem passed as a parameter if its in the correct state to do so.
+    void approve(WorkFlow *wf) override;       // Function that uses double dispatch and approves the WorkFlow passed as a parameter if its in the correct state to do so.
+    void approve(WorkItem *wi) override;       // Function that uses double dispatch and approves the WorkItem passed as a parameter if its in the correct state to do so.
+    void cancel(WorkFlow *wf) override;        // Function that uses double dispatch and cancels the WorkFlow passed as a parameter if its in the correct state to do so.
+    void cancel(WorkItem *wi) override;        // Function that uses double dispatch and cancels the WorkItem passed as a parameter if its in the correct state to do so.
+    void finish(WorkFlow *wf) override;        // Function that uses double dispatch and finishes the WorkFlow passed as a parameter if its in the correct state to do so.
+    void finish(WorkItem *wi) override;        // Function that uses double dispatch and finishes the WorkItem passed as a parameter if its in the correct state to do so.
+    void beginWork(WorkFlow *wf) override;     // Function that uses double dispatch and begins progress the WorkFlow passed as a parameter if its in the correct state to do so.
+    void beginWork(WorkItem *wi) override;     // Function that uses double dispatch and begins progress the WorkItem passed as a parameter if its in the correct state to do so.
+    std::string stringStatus() const override; // Function that returns that returns a string of what the WorkItem State is represented by the current state.
 };
 
 InReviewState::~InReviewState()
