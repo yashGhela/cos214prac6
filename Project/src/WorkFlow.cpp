@@ -43,47 +43,10 @@ WorkFlowMemento *WorkFlow::createMemento()
     std::map<std::string, WorkItemState *> snap;
     snap[name] = state;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+   
     for (auto *child : getChildren())
     {
         WorkFlowMemento *cm = child->createMemento();
-=======
-=======
->>>>>>> 586b23d (fixed deferencing error)
-=======
->>>>>>> 586b23d (fixed deferencing error)
-=======
->>>>>>> 586b23d (fixed deferencing error)
-    for (auto* child : getChildren()) {
-        WorkFlowMemento* cm = child->createMemento();  
->>>>>>> 586b23d (fixed deferencing error)
-=======
-    for (auto *child : getChildren())
-    {
-        WorkFlowMemento *cm = child->createMemento();
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-    {
-        WorkFlowMemento *cm = child->createMemento();
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-    {
-        WorkFlowMemento *cm = child->createMemento();
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-    {
-        WorkFlowMemento *cm = child->createMemento();
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
         auto childSnap = cm->getState();
         snap.insert(childSnap.begin(), childSnap.end());
         delete cm;
@@ -100,42 +63,10 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
     if (it != snap.end())
         setState(it->second);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     for (auto *child : getChildren())
         child->setMemento(m);
-=======
-=======
->>>>>>> 586b23d (fixed deferencing error)
-=======
->>>>>>> 586b23d (fixed deferencing error)
-=======
->>>>>>> 586b23d (fixed deferencing error)
-    for (auto* child : getChildren())
-        child->setMemento(m);                        
->>>>>>> 586b23d (fixed deferencing error)
-=======
-    for (auto *child : getChildren())
-        child->setMemento(m);
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-        child->setMemento(m);
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-        child->setMemento(m);
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
-=======
-    for (auto *child : getChildren())
-        child->setMemento(m);
->>>>>>> 088efde (Slight changes to WorkItem.cpp and TestScenario.cpp so the test contains no syntax errors at this current time)
+
 }
 
 Iterator *WorkFlow::createIterator()
