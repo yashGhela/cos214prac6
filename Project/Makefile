@@ -1,18 +1,34 @@
-CXX := g++
-CXXFLAGS := -g -std=c++17 -pthread
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra -pedantic -g
 
-valgrind:
-	make clean
-	make demo
-	valgrind --track-origins=yes --leak-check=full 
+SRC_DIR =src
+INC_DIR =include
+BUILD_DIR =build
 
-gdb:
-	make clean
-	make demo
-	gdb ./demo
+TARGET =TIVIDY 
+
+SOURCES= $(wildcard $(SRC_DIR)/*.cpp)
+OBJECTS= $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(TARGET)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -I$(INC_DIR) -c $< -o $@
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -f *.o
+	rm -rf $(BUILD_DIR)/*
 
-run: demo
-	./demo
+debug: $(TARGET)
+	gdb ./$(TARGET)
+
+valgrind: $(TARGET)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(TARGET)
+
+.PHONY: all run clean debug valgrind
