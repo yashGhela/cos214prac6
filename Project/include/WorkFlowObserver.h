@@ -10,7 +10,7 @@ class WorkFlowObserver
 private:
 public:
     virtual ~WorkFlowObserver() = 0;
-    virtual void update(Event event, WorkFlowComponent *source) = 0;
+    virtual void update(const Event &event, WorkFlowComponent *source) = 0;
 };
 
 #endif
