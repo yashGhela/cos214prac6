@@ -25,7 +25,7 @@ public:
     void AddParticipant(Participant* participant);
 
     int getProgress();
-
+    WorkFlowComponent* GetCurrentWorkflow();
     int getVersion();
     void saveVersion();
     void regressVersion(int version);
@@ -36,7 +36,7 @@ private:
     VersionHistory* history;
     WorkHandler* handlerChain;
     WorkFlowObserver* observer;
-    
+
     std::vector<Participant*> participants;
     std::vector<WorkFlow*> workflows;
 
