@@ -2,10 +2,10 @@
 #define WORKITEM_H
 #include "WorkFlowComponent.h"
 #include "WorkFlowObserver.h"
+#include "WorkFlowVisitor.h"
 class WorkItem : public WorkFlowComponent, public WorkFlowObserver // The WorkItem class that publically inherits from WorkFLowComponent and WorkFlowObserver, implementing the interfaces and acting as the Leave of the WorkFlow Composite.
 {
 private:
-    WorkItemState *state;             // The current state of the WorkItem.
     Participant *assignedParticipant; // The current Participant assigned to the WorkItem.
     std::string name;                 // The name of the WorkItem.
 
