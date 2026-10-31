@@ -51,9 +51,7 @@ void WorkItem::update(Event event, WorkFlowComponent *source)
 
 std::vector<WorkFlowComponent *> WorkItem::getChildren()
 {
-    std::vector<WorkFlowComponent *> v;
-    v.push_back(this);
-    return v;
+    return std::vector<WorkFlowComponent *>();
 }
 
 std::string WorkItem::getName()

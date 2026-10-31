@@ -1,6 +1,7 @@
 #include "WorkFlow.h"
 #include "WorkFlowVisitor.h"
 #include <algorithm>
+#include "WorkFlowIterator.h"
 
 WorkFlow::WorkFlow(std::string n)
 {
@@ -74,18 +75,12 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
 
 Iterator *WorkFlow::createIterator()
 {
-    // STILL NEED TO IMPLEMENT IT
+    return new WorkFlowIterator(this);
 }
 
 std::vector<WorkFlowComponent *> WorkFlow::getChildren()
 {
-    std::vector<WorkFlowComponent *> v;
-    for (auto *child : this->children)
-    {
-        std::vector<WorkFlowComponent *> childChildren = child->getChildren();
-        v.insert(v.end(), childChildren.begin(), childChildren.end());
-    }
-    return v;
+    return this->children;
 }
 
 std::string WorkFlow::getName()
