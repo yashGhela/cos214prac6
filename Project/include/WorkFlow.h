@@ -16,7 +16,7 @@ public:
     WorkFlowComponent *removeChild(WorkFlowComponent *c);    // Removes a child of type WorkFlowComponent to the children vector of the WorkFlow and returns it if found, otherwise it returns a nullptr.
     WorkFlowMemento *createMemento() override;               // Creates a memento of the WorkFlow and returns it, storing all current children and the state the workflow is currently in.
     void setMemento(WorkFlowMemento *m) override;            // Sets a memento for the WorkFlow, setting current state and children to what was stored in the memento that is passed as a parameter.
-    Iterator *createIterator();                              // Creates an iterator for the WorkFlow so that its children can be iterated through.
+    Iterator *createIterator() override;                              // Creates an iterator for the WorkFlow so that its children can be iterated through.
     std::vector<WorkFlowComponent *> getChildren() override; // Returns all children of a WorkFlow, traversing the tree-structure recursively.
     std::string getName() override;                          // Returns the name of the WorkFlow.
     void accept(WorkFlowVisitor *v) override;                // Accepts a visitor to work on the WorkFlow using double dispatch.

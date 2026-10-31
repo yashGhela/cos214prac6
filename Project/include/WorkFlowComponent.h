@@ -1,13 +1,14 @@
 #ifndef WORKFLOWCOMPONENT_H
 #define WORKFLOWCOMPONENT_H
-#include "WorkFlowMemento.h"
-#include "Participant.h"
+
 #include <vector>
 #include <string>
 #include "ActionObserver.h"
+#include "EventSubject.h"
 
 class WorkFlowVisitor;
-class WorkFlowComponent: public ActionObserver // The Abstract Interface of the WorkFlow Composite Structure.
+class WorkFlowMemento;
+class WorkFlowComponent: public EventSubject, public ActionObserver // The Abstract Interface of the WorkFlow Composite Structure.
 {
 private:
 protected:
