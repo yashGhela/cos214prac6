@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "WorkFlowIterator.h"
 #include "VisitorTable.h"
+#include "WorkFlowMemento.h"
 
 WorkFlow::WorkFlow(std::string n)
 {
