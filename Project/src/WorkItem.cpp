@@ -44,10 +44,7 @@ void WorkItem::setParticipant(Participant *p)
     this->assignedParticipant = p;
 }
 
-void WorkItem::update(Event event, WorkFlowComponent *source)
-{
-    // STILL NEEDS TO BE IMPLEMENTED
-}
+
 
 std::vector<WorkFlowComponent *> WorkItem::getChildren()
 {

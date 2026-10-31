@@ -19,7 +19,6 @@ public:
     Participant *getParticipant();                           // Returns the Participant currently assigned to the WorkItem.
     void setParticipant(Participant *p);                     // Sets teh WorkItem's Participant to the passed in parameter.
     std::vector<WorkFlowComponent *> getChildren() override; // Returns a vector of just the WorkItem.
-    void update(Event event, WorkFlowComponent *source);     // Updates the Observers that are observing the WorkItem.
     std::string getName() override;                          // Returns the name of the WorkItem.
     void accept(WorkFlowVisitor *v) override;                // Accepts a visitor to work on the WorkItem using double dispatch.
 

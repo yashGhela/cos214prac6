@@ -4,9 +4,10 @@
 #include "Participant.h"
 #include <vector>
 #include <string>
+#include "ActionObserver.h"
 
 class WorkFlowVisitor;
-class WorkFlowComponent // The Abstract Interface of the WorkFlow Composite Structure.
+class WorkFlowComponent: public ActionObserver // The Abstract Interface of the WorkFlow Composite Structure.
 {
 private:
 protected:
@@ -16,6 +17,7 @@ protected:
     bool finished;   // True once the component has been finished.
     bool cancelled;  // True once the component has been cancelled.
                      // if all 5 of the flags are false then the Component has simply been created.
+    void applyAction(const Event& event, WorkFlowComponent* source) override;
 public:
     WorkFlowComponent() : inProgress(false), inReview(false), approved(false), finished(false), cancelled(false) {} // Constructor with Inline definition, setting all state booleans to false.
     virtual ~WorkFlowComponent();                                                                                   // Virtual Destructor
@@ -38,6 +40,7 @@ public:
         finished = finish;
         cancelled = cancel;
     }
+
 };
 
 #endif
