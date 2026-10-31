@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include "ActionsRegister.h"
 
 
 class WorkFlowObserver;      
@@ -13,9 +14,12 @@ class Event{
     private:
     std::string name;
     std::vector<WorkFlowObserver*> reactors;
+    ActionRegistry action;
 
     public:
-    Event(std::string eventName):name(eventName){};
+    Event(std::string eventName, ActionRegistry act):name(eventName), action(act){};
+
+    ActionRegistry getAction() const   { return action; }
     std::string getName() const {return name;};
     void addReactor(WorkFlowObserver* w){reactors.push_back(w);}
     void removeReactor(WorkFlowObserver* w) {
@@ -37,7 +41,10 @@ class EventRegistry{
         for (char& c : n) c = (c == ' ') ? '_' : std::toupper(static_cast<unsigned char>(c));
         return n;
     }//this function jsut sets it so kitchen_closed and KITCHEN_CLOSED are the same thing
-    bool define(const std::string& name) { return events.insert(normalise(name)).second; }
+    bool define(const std::string& name, ActionRegistry action) {
+        std::string key = normalise(name);
+        return events.emplace(key, Event(key, action)).second;
+    }
     bool exists(const std::string& name) const { return events.count(normalise(name)) > 0; }
     const std::set<std::string, Event>& all() const { return events; }
 

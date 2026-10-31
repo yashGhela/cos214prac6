@@ -1,6 +1,6 @@
 #pragma once
 
-enum ActionRegistry{
+enum class ActionRegistry{
 
     InReview,
     Approved, 
