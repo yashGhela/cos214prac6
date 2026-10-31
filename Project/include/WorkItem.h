@@ -3,7 +3,9 @@
 #include "WorkFlowComponent.h"
 #include "WorkFlowObserver.h"
 #include "WorkFlowVisitor.h"
-class WorkItem : public WorkFlowComponent, public WorkFlowObserver // The WorkItem class that publically inherits from WorkFLowComponent and WorkFlowObserver, implementing the interfaces and acting as the Leave of the WorkFlow Composite.
+#include "ActionObserver.h"
+
+class WorkItem : public WorkFlowComponent, public ActionObserver // The WorkItem class that publically inherits from WorkFLowComponent and WorkFlowObserver, implementing the interfaces and acting as the Leave of the WorkFlow Composite.
 {
 private:
     Participant *assignedParticipant; // The current Participant assigned to the WorkItem.
@@ -20,6 +22,8 @@ public:
     void update(Event event, WorkFlowComponent *source);     // Updates the Observers that are observing the WorkItem.
     std::string getName() override;                          // Returns the name of the WorkItem.
     void accept(WorkFlowVisitor *v) override;                // Accepts a visitor to work on the WorkItem using double dispatch.
+
+  
 };
 
 #endif
