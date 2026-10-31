@@ -2,19 +2,19 @@
 #define VERSIONITERATOR_H
 
 #include "Iterator.h"
-#include "VersionHistory.h"
+#include "WorkFlowMemento.h"
 #include <map>
 
 class VersionIterator:public Iterator{
     private:
-        std::map<int, VersionHistory*>* versions;
-        std::map<int, VersionHistory*>::iterator current;       
+        std::map<int, WorkFlowMemento*>* versions;
+        std::map<int, WorkFlowMemento*>::iterator current;       
     public:
-        VersionIterator(std::map<int, VersionHistory*>* versions);
+        VersionIterator(std::map<int, WorkFlowMemento*>* versions);
         void next();
         void first();
         bool isDone();
-        VersionHistory* currentItem();
+        WorkFlowMemento* currentItem();
 };
 
 #endif

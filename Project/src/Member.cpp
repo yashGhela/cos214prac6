@@ -1,13 +1,31 @@
 #include "Member.h"
+#include "FinishedState.h"
 
-void Member::doWork() override{
+void Member::performWork(){
+    if(!chain || !chain->handleRequest(*memberWork)){
+                std::cout<<name<<": nobody can handle this item "<<memberWork->getName() <<"\n";
+    }
+}
+
+void Member::doWork() {
     this->performWork();
 }
 
-void Member::getWork() override{
-    //not really sure what to add here yet till everyone else is done
+void Member::getWork() {
+    for (auto& [id,item]: assignedWork)
+    {
+        if(item && item->getParticipant()==nullptr){
+            item->setParticipant(this);
+            memberWork=item;
+            return;
+        }
+    }
+    
 }
 
-void Member::submitWork() override{
-    //not really sure what to add here yet till everyone else is done
+void Member::submitWork() {
+    
+ 
+    memberWork->finish(memberWork->getState());
+
 }

@@ -14,7 +14,7 @@ VersionHistory::~VersionHistory()
 
 Iterator *VersionHistory::createIterator()
 {
-    return new VersionIterator(mementos);
+    return new VersionIterator(&mementos);
 }
 
 void VersionHistory::addMemento(int version, WorkFlowMemento *memento)

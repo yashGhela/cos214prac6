@@ -8,7 +8,7 @@ class WorkItem;
 class Participant{
 
     protected:
-    std::map<int,WorkItem*> assignedWork;
+    std::map<std::string,WorkItem*> assignedWork;
     std::string part_name;
     WorkHandler* chain;
     std::map<std::string, bool> part_roles;
@@ -19,23 +19,28 @@ class Participant{
 
     Participant(std::string name): part_name((name)){};
     virtual ~Participant();
-    void performWork(){
-        for(auto& [id,item]: assignedWork_){
+    virtual void performWork(){
+        for(auto& [id,item]: assignedWork){
             if(!chain || !chain->handleRequest(*item)){
                 std::cout<<name<<": nobody can handle this item "<<id <<"\n";
             }
         }
     }
 
-    void setChain(WorkHandler* head) { chain_ = head; }
-    void assignWork(WorkItem* item)  { assignedWork_[item->id()] = item; }
+
+    std::string getName() const;
+
+
+    std::string Participant::getName() const { return part_name; }
+    void setChain(WorkHandler* head) { chain = head; }
+    void assignWork(WorkItem* item)  { assignedWork[item->getName()] = item; }
 
     virtual void doWork()=0;
     virtual void getWork()=0;
     virtual void submitWork()=0;
-    virtual bool hasRole(const std::string &role) const {return roles.count(role);};
+    virtual bool hasRole(const std::string &role) const {return part_roles.count(role);};
     virtual int getWorkLoad() const {return static_cast<int>(assignedWork.size());};
     const std::string& name() const {return part_name;};
     
 
-}
+};

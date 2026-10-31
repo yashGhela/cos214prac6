@@ -5,13 +5,16 @@
 
 class Team: public Participant{
     private:
-    std::map<std::string, std::unique_ptr<Participant>> teamMembers;
+    std::map<std::string, Participant*> teamMembers;
+    std::string teamName;
 
     public:
 
 
+    Team(std::string name):Participant(name){};
 
-    void addMember(std::unique_ptr<Participant> p);
+
+    void addMember(Participant* p);
 
     void removeMember(const std::string& name);
 
@@ -21,7 +24,6 @@ class Team: public Participant{
 
    void submitWork() override;
 
-   bool hasRole() const override;
-
+ 
    
 };

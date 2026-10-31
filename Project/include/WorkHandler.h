@@ -19,7 +19,9 @@ class WorkHandler{
     virtual ~WorkHandler();
     virtual void update(const Event& event, WorkFlowComponent* source) const =0;
     virtual void setSuccessor(WorkHandler* next){successor=next;};
-    virtual void handleRequest(WorkItem& item)=0;
+    virtual bool handleRequest(WorkItem& item)=0;
     virtual void process(WorkItem& item)=0;
 
 };
+
+
