@@ -4,7 +4,7 @@
 
 
 template <typename T>
-bool HandlerTemplate<T>::handleRequest(WorkItem& item){
+bool HandlerTemplate<T>::handleRequest(WorkItem* item){
 
     if(item){
         process(item);
@@ -16,7 +16,3 @@ bool HandlerTemplate<T>::handleRequest(WorkItem& item){
 
 }
 
-template <typename T>
-void HandlerTemplate<T>::applyAction(const Event& event, WorkFlowComponent* source) {
-    accept(&visitorFor(event.getAction()));
-}

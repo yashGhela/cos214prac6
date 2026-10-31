@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <set>
+#include <map>
 #include <algorithm>
 #include "ActionsRegister.h"
 
@@ -36,7 +36,7 @@ public:
 class EventRegistry
 {
 private:
-    std::set<std::string, Event> events;
+    std::map<std::string, Event> events;
 
 public:
     static std::string normalise(std::string n)
@@ -51,7 +51,11 @@ public:
         return events.emplace(key, Event(key, action)).second;
     }
     bool exists(const std::string &name) const { return events.count(normalise(name)) > 0; }
-    const std::set<std::string, Event> &all() const { return events; }
+    std::vector<std::string> all() const {
+    std::vector<std::string> names;
+    for (const auto& kv : events) names.push_back(kv.first);
+    return names;
+}
 };
 
 #endif
