@@ -29,13 +29,17 @@ public:
     int getVersion();
     void saveVersion();
     void regressVersion(int version);
+    std::vector<WorkFlow*> getWorkflows();
 
 private:
     WorkFlowComponent* workflow;
     VersionHistory* history;
     WorkHandler* handlerChain;
     WorkFlowObserver* observer;
+    
     std::vector<Participant*> participants;
+    std::vector<WorkFlow*> workflows;
+
     int currentVersion;
 
 };

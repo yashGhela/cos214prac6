@@ -17,6 +17,10 @@ TIVIDYFacade::~TIVIDYFacade()
     delete history;
 }
 
+//perchance add a getWorkflows function to return all nested workflows? 
+std::vector<WorkFlow*> getWorkflows(){
+    
+}
 void TIVIDYFacade::StartWorkFlow()
 {
     if(workflow)
