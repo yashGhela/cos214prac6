@@ -5,7 +5,6 @@
 class WorkFlow : public WorkFlowComponent, public Aggregate // A class publically derived from WorkFlowComponent and Aggregate. It Implements all functions defined in the respective interfaces. It acts as a composite in the WorkFlow Composite structure.
 {
 private:
-    WorkItemState *state;                      // The current state of a WorkFlow at any time.
     std::string name;                          // The name of the WorkFlow.
     std::vector<WorkFlowComponent *> children; // The children that the WorkFlow holds. It can contain other WorkFlows and WorkItems.
 

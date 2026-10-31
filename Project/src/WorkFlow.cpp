@@ -1,4 +1,5 @@
 #include "WorkFlow.h"
+#include "WorkFlowVisitor.h"
 #include <algorithm>
 
 WorkFlow::WorkFlow(std::string n)
@@ -12,7 +13,6 @@ WorkFlow::~WorkFlow()
     {
         delete child;
     }
-    delete state;
 }
 
 bool WorkFlow::addChild(WorkFlowComponent *c)
@@ -31,7 +31,7 @@ WorkFlowComponent *WorkFlow::removeChild(WorkFlowComponent *c)
     auto it = std::find(this->children.begin(), this->children.end(), c);
     if (it != this->children.end())
     {
-        this->children.erase(std::remove(this->children.begin(), this->children.end(), "StateA"), this->children.end());
+        this->children.erase(it);
         return c;
     }
     return nullptr;
@@ -40,10 +40,16 @@ WorkFlowComponent *WorkFlow::removeChild(WorkFlowComponent *c)
 WorkFlowMemento *WorkFlow::createMemento()
 {
     WorkFlowMemento *m = new WorkFlowMemento();
-    std::map<std::string, WorkItemState *> snap;
-    snap[name] = state;
+    std::vector<bool> flags;
+    std::map<std::string, std::vector<bool>> snap;
+    flags.push_back(isInProgress());
+    flags.push_back(isInReview());
+    flags.push_back(isApproved());
+    flags.push_back(isFinished());
+    flags.push_back(isCancelled());
+    snap[name] = flags;
 
-    for (auto *child : getChildren())
+    for (auto *child : this->children)
     {
         WorkFlowMemento *cm = child->createMemento();
         auto childSnap = cm->getState();
@@ -60,25 +66,15 @@ void WorkFlow::setMemento(WorkFlowMemento *m)
     auto snap = m->getState();
     auto it = snap.find(name);
     if (it != snap.end())
-        setState(it->second);
+        setStatus(it->second[0], it->second[1], it->second[2], it->second[3], it->second[4]);
 
-    for (auto *child : getChildren())
+    for (auto *child : this->children)
         child->setMemento(m);
 }
 
 Iterator *WorkFlow::createIterator()
 {
     // STILL NEED TO IMPLEMENT IT
-}
-
-void WorkFlow::setState(WorkItemState *s)
-{
-    this->state = s;
-}
-
-WorkItemState *WorkFlow::getState()
-{
-    return this->state;
 }
 
 std::vector<WorkFlowComponent *> WorkFlow::getChildren()
@@ -97,27 +93,7 @@ std::string WorkFlow::getName()
     return this->name;
 }
 
-void WorkFlow::review(WorkItemState *s)
+void WorkFlow::accept(WorkFlowVisitor *v)
 {
-    this->state->review(this);
-}
-
-void WorkFlow::approve(WorkItemState *s)
-{
-    this->state->approve(this);
-}
-
-void WorkFlow::cancel(WorkItemState *s)
-{
-    this->state->cancel(this);
-}
-
-void WorkFlow::finish(WorkItemState *s)
-{
-    this->state->finish(this);
-}
-
-void WorkFlow::beginWork(WorkItemState *s)
-{
-    this->state->beginWork(this);
+    v->visit(this);
 }

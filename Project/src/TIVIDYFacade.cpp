@@ -1,15 +1,18 @@
 #include "TIVIDYFacade.h"
 #include "WorkFlow.h"
 #include "WorkFlowComponent.h"
-#include "WorkItemState.h"
-#include "FinishedState.h"
+#include "FinishVisitor.h"
+#include "BeginWorkVisitor.h"
+#include "ReviewVisitor.h"
+#include "CancelVisitor.h"
 #include "Participant.h"
 #include "VersionHistory.h"
 #include "WorkHandler.h"
 #include "WorkFlowObserver.h"
 
 TIVIDYFacade::TIVIDYFacade() : workflow(nullptr), history(new VersionHistory()), handlerChain(nullptr), observer(nullptr), currentVersion(0)
-{}
+{
+}
 
 TIVIDYFacade::~TIVIDYFacade()
 {
@@ -19,81 +22,87 @@ TIVIDYFacade::~TIVIDYFacade()
 
 void TIVIDYFacade::StartWorkFlow()
 {
-    if(workflow)
+    if (workflow)
     {
-        std::cout<<"Starting Workflow"<<std::endl;
-        workflow->beginWork(workflow->getState());
+        std::cout << "Starting Workflow" << std::endl;
+        BeginWorkVisitor beginWork;
+        workflow->accept(&beginWork);
     }
 }
 
 void TIVIDYFacade::CreateWorkFlow(const std::string &name)
 {
-    std::cout<<"Creating Workflow"<<std::endl;
+    std::cout << "Creating Workflow" << std::endl;
     delete workflow;
     workflow = new WorkFlow(name);
 }
 
 void TIVIDYFacade::ReviewWorkFlow()
 {
-    if(workflow)
+    if (workflow)
     {
-        std::cout<<"Reviewing Workflow"<<std::endl;
-        workflow->review(workflow->getState());
+        std::cout << "Reviewing Workflow" << std::endl;
+        ReviewVisitor review;
+        workflow->accept(&review);
     }
 }
 
 void TIVIDYFacade::RejectWorkFlow()
 {
-    
 }
 
 void TIVIDYFacade::CompleteWorkFlow()
 {
-    if(workflow)
+    if (workflow)
     {
-        std::cout<<"Completing Workflow"<<std::endl;
-        workflow->finish(workflow->getState());
+        std::cout << "Completing Workflow" << std::endl;
+        FinishVisitor finish;
+        workflow->accept(&finish);
     }
 }
 
 void TIVIDYFacade::CancelWorkFlow()
 {
-    if(workflow)
+    if (workflow)
     {
-        std::cout<<"Canceling Workflow"<<std::endl;
-        workflow->cancel(workflow->getState());
+        std::cout << "Canceling Workflow" << std::endl;
+        CancelVisitor cancel;
+        workflow->accept(&cancel);
     }
 }
 
 void TIVIDYFacade::AddParticipant(Participant *participant)
 {
-    if(participant)
+    if (participant)
     {
-        std::cout<<"Adding Particpant"<<std::endl;
+        std::cout << "Adding Particpant" << std::endl;
         participants.push_back(participant);
     }
 }
 
 int TIVIDYFacade::getProgress()
 {
-    if(!workflow)
+    if (!workflow)
         return 0;
 
-    std::vector<WorkFlowComponent*> children = workflow->getChildren();
-    if(children.empty())
+    std::vector<WorkFlowComponent *> children = workflow->getChildren();
+    if (children.empty())
         return 0;
-
     int finished = 0;
-    for(size_t i = 0; i < children.size(); ++i)
+    int active = 0;
+    for (size_t i = 0; i < children.size(); ++i)
     {
-        if(dynamic_cast<FinishedState*>(children[i]->getState()))
+        if (children[i]->isCancelled())
+        {
+            continue;
+        }
+        ++active;
+        if (children[i]->isFinished())
         {
             ++finished;
         }
     }
-
-    return static_cast<int>(finished * 100 / children.size());
-
+    return static_cast<int>(finished * 100 / active);
 }
 
 int TIVIDYFacade::getVersion()
@@ -103,25 +112,24 @@ int TIVIDYFacade::getVersion()
 
 void TIVIDYFacade::saveVersion()
 {
-    if(!workflow)
+    if (!workflow)
         return;
 
     history->addMemento(++currentVersion, workflow->createMemento());
-    std::cout<<"Saving Version"<<std::endl;
-
+    std::cout << "Saving Version" << std::endl;
 }
 
 void TIVIDYFacade::regressVersion(int version)
 {
-    if(!workflow)
+    if (!workflow)
         return;
 
-    WorkFlowMemento* m = history->getMemento(version);
+    WorkFlowMemento *m = history->getMemento(version);
 
-    if(m)
+    if (m)
     {
         workflow->setMemento(m);
         currentVersion = version;
-        std::cout<<"Regressing Version"<<std::endl;
+        std::cout << "Regressing Version" << std::endl;
     }
 }
