@@ -2,16 +2,30 @@
 #include <vector>
 #include <string>
 #include <set>
+
+
+class WorkFlowObserver;      
+class WorkFlowComponent;
 //this function lets users create their own events w unique name and id
 //a user can then create their own event class anywhere and pass it seamlessly
 
 class Event{
     private:
     std::string name;
+    std::vector<WorkFlowObserver*> reactors;
 
     public:
     Event(std::string eventName):name(eventName){};
     std::string getName() const {return name;};
+    void addReactor(WorkFlowObserver* w){reactors.push_back(w);}
+    void removeReactor(WorkFlowObserver* w) {
+        reactors.erase(std::remove(reactors.begin(), reactors.end(), w), reactors.end());
+    }
+
+    const std::vector<WorkFlowObserver*>& getReactors() const { return reactors; }
+
+
+
 };
 
 class EventRegistry{
