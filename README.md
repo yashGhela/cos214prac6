@@ -17,6 +17,13 @@ TIVIDY is an intigrated workflow-management system that uses a combination of de
 
 In Project directory run:
   - 
+Using Docker Compose:   
+  - Run main:   
+    docker-compose up --build   
+  - Run Valgrind:   
+    docker-compose up --profile tools run --rm workflow_valgrind   
+  - Run GDB:   
+    docker-compose up --profile tools run --rm workflow_gdb   
 to clear:
   -
 # Members
