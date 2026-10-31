@@ -13,7 +13,7 @@ void EventSubject::Detach(WorkFlowObserver* observer) {
 	//remove specified observer from vector
 	observerList.erase(std::remove(observerList.begin(), observerList.end(), observer), observerList.end());
 }
-void EventSubject::notify(Event event,WorkflowComponent* source) {
+void EventSubject::notify(Event event,WorkFlowComponent* source) {
     for (WorkFlowObserver* observer : observerList) {
         observer->update(event, source);
     }
