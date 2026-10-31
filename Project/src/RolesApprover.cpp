@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-RolesApprover::RolesApprover(Participant* decorated){
+RolesApprover::RolesApprover(Participant* decorated):Roles(decorated){
     this->decorated = decorated;
     roleName = "APPROVER";
     roleLevel = 15;

@@ -4,11 +4,11 @@
 #include <iostream>
 using namespace std;
 
-Roles::Roles(){
-    decorated = nullptr;
-    roleName = "nullRole";
-    roleLevel = -1;
-}
+Roles::Roles(Participant* p)
+    : Participant(p->getName()),   // base needs a name, so reuse the wrapped one
+      decorated(p),
+      roleName(""),
+      roleLevel(0) {}
 
 Roles::~Roles(){}
 // \033[91m makes the terminal font colour bright red + \033[0m resets the colour back to its default
