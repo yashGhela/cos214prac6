@@ -30,6 +30,18 @@ int readInt() {
     }return value;
 }
 
+void menuWorkFlowManager(){
+    cout << "\033[1;36m\nManage Workflows:\n\033[0m";
+    cout << "1. View Workflow Definitions \n";
+    cout << "2. Create Workflow Instance\n";
+    cout << "3. View Active Instances\n";
+    cout << "4. Manage Existing Instance\n";
+
+    cout << "0. <-- Back\n\n";
+
+    cout << "Choice:\n";
+}
+
 int main(){
     TIVIDYFacade facade;
 
@@ -40,22 +52,30 @@ int main(){
         cout << "\033[32m ฅ(^•ﻌ•^ฅ) ++++++ TIVIDY WORKFLOW ENGINE +++++ ฅ (^•ﻌ•^ฅ) \033[0m" << "\n";
         cout << "\033[32m -------------------------------------------------------- \033[0m" << "\n\n";
 
-        cout << "\033[1;36m\nSelect a Scenario:\n\033[0m";
-        cout << " 1. Animation Studio\n";
-        cout << " 2. Restaurant\n";
-        cout << " 3. Create a scenario\n";
-        cout << " 0. Exit\n\n";
-        cout << "Choice: ";
+        int choice;
+        menuWorkFlowManager();
+        cin >> choice;
 
         ScenarioChoice = readInt();
 
         switch(ScenarioChoice){
             //AnimationStudio
             case 1:{
+            cout << "-----------------------------------------------" << "\n";
+            cout << "      ANIMATION STUDIO WORKFLOW MANAGER  ＼(^o^)／" << "\n";
+            cout << "-----------------------------------------------" << "\n\n";
+
+            int choice;
+            menuWorkFlowManager();
+            cin >> choice;
+
                 break;
             }
             //CRestaurant
             case 2:{
+            cout << "-----------------------------------------------" << "\n";
+            cout << "RESTAURANT WORKFLOW MANAGER  ᕕ( ᐛ )ᕗ" << "\n";
+            cout << "-----------------------------------------------" << "\n\n";
                 break;
             }
             //Create a new Scenario 
