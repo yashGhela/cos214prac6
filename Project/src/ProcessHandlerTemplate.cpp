@@ -1,16 +1,10 @@
 #include "ProcessHandlerTemplate.h"
 #include "WorkItem.h"
-#include "WorkItemState.h"
-#include "FinishedState.h"
-#include "InProgressState.h"
-
+#include "BeginWorkVisitor.h"
 
 template <typename T>
-void ProcessHandlerTemplate<T>::process(WorkItem& item){
-
-   
-    item->beginWork(item->getState());
-    
-
-
+void ProcessHandlerTemplate<T>::process(WorkItem &item)
+{
+    BeginWorkVisitor beginWork;
+    item->accept(&beginWork);
 }
