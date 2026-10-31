@@ -1,5 +1,6 @@
 #include "WorkItem.h"
 #include  "VisitorTable.h"
+#include "WorkFlowMemento.h"
 
 WorkItem::WorkItem(std::string n)
 {

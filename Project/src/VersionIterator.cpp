@@ -1,4 +1,17 @@
+
+
 #include "../include/VersionIterator.h"
+
+VersionIterator::VersionIterator(std::map<int, WorkFlowMemento*>* v)
+    : versions(v)
+{
+    if (versions)
+        current = versions->begin();  
+}
+
+VersionIterator::~VersionIterator() {
+    // intentionally empty: the map and the mementos belong to VersionHistory
+}
 
 void VersionIterator::next(){
     if(!isDone()) {

@@ -18,7 +18,7 @@ class Participant{
     public:
 
     Participant(std::string name): part_name((name)){};
-    virtual ~Participant();
+    virtual ~Participant(){};
     virtual void performWork(){
         for(auto& entry: assignedWork){
             WorkItem* item = entry.second;

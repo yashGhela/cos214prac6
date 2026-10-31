@@ -34,3 +34,11 @@ void Roles::submitWork(){
     cout<<"\033[91m"<<roleName<<"\033[0m of "<<"\033[91m"<<roleLevel<<"\033[0m cannot submit null work"<<endl;
     decorated->submitWork();
 }
+
+bool Roles::hasRole(const std::string& role) const {
+    return decorated->hasRole(role);
+}
+
+int Roles::getWorkLoad() const {
+    return decorated->getWorkLoad();
+}
