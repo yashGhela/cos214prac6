@@ -1,4 +1,5 @@
 #include "WorkItem.h"
+#include  "VisitorTable.h"
 
 WorkItem::WorkItem(std::string n)
 {
@@ -10,6 +11,11 @@ WorkItem::~WorkItem()
 {
     this->assignedParticipant = nullptr;
 }
+
+void WorkItem::applyAction(const Event& event, WorkFlowComponent*) {
+    accept(&visitorFor(event.getAction()));
+}
+
 
 WorkFlowMemento *WorkItem::createMemento()
 {

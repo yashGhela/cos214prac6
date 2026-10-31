@@ -7,7 +7,8 @@ class WorkFlow : public WorkFlowComponent, public Aggregate // A class publicall
 private:
     std::string name;                          // The name of the WorkFlow.
     std::vector<WorkFlowComponent *> children; // The children that the WorkFlow holds. It can contain other WorkFlows and WorkItems.
-
+protected:
+    void applyAction(const Event& event, WorkFlowComponent* source) override;
 public:
     WorkFlow(std::string n);                                 // Constructor for a WorkFlow. Takes a string as a parameter to assign as its name.
     ~WorkFlow();                                             // Destructor for a Workflow, recursively deleting the children of a composite when called.

@@ -2,6 +2,7 @@
 #include "WorkFlowVisitor.h"
 #include <algorithm>
 #include "WorkFlowIterator.h"
+#include "VisitorTable.h"
 
 WorkFlow::WorkFlow(std::string n)
 {
@@ -37,6 +38,13 @@ WorkFlowComponent *WorkFlow::removeChild(WorkFlowComponent *c)
     }
     return nullptr;
 }
+
+
+void WorkFlow::applyAction(const Event& event, WorkFlowComponent*) {
+    accept(&visitorFor(event.getAction()));
+}
+
+
 
 WorkFlowMemento *WorkFlow::createMemento()
 {
