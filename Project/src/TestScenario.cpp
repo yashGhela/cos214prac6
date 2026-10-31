@@ -1,7 +1,6 @@
 #include <iostream>
 #include "WorkFlow.h"
 #include "WorkItem.h"
-#include "CreatedState.h"
 #include "TIVIDYFacade.h"
 #include "Team.h"
 #include "Member.h"

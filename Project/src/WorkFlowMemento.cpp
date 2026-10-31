@@ -1,11 +1,11 @@
 #include "WorkFlowMemento.h"
 
-std::map<std::string, WorkItemState *> WorkFlowMemento::getState()
+std::map<std::string, std::vector<bool>> WorkFlowMemento::getState()
 {
     return state;
 }
 
-void WorkFlowMemento::setState(std::map<std::string, WorkItemState *> state)
+void WorkFlowMemento::setState(std::map<std::string, std::vector<bool>> state)
 {
     this->state = state;
 }

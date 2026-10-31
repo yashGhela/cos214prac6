@@ -3,19 +3,25 @@
 WorkItem::WorkItem(std::string n)
 {
     this->name = n;
+    this->assignedParticipant = nullptr;
 }
 
 WorkItem::~WorkItem()
 {
-    delete this->state;
     this->assignedParticipant = nullptr;
 }
 
 WorkFlowMemento *WorkItem::createMemento()
 {
     WorkFlowMemento *m = new WorkFlowMemento();
-    std::map<std::string, WorkItemState *> snap;
-    snap[name] = state;
+    std::vector<bool> flags;
+    std::map<std::string, std::vector<bool>> snap;
+    flags.push_back(isInProgress());
+    flags.push_back(isInReview());
+    flags.push_back(isApproved());
+    flags.push_back(isFinished());
+    flags.push_back(isCancelled());
+    snap[name] = flags;
     m->setState(snap);
     return m;
 }
@@ -25,17 +31,7 @@ void WorkItem::setMemento(WorkFlowMemento *m)
     auto snap = m->getState();
     auto it = snap.find(name);
     if (it != snap.end())
-        setState(it->second);
-}
-
-void WorkItem::setState(WorkItemState *s)
-{
-    this->state = s;
-}
-
-WorkItemState *WorkItem::getState()
-{
-    return this->state;
+        setStatus(it->second[0], it->second[1], it->second[2], it->second[3], it->second[4]);
 }
 
 Participant *WorkItem::getParticipant()
@@ -48,16 +44,11 @@ void WorkItem::setParticipant(Participant *p)
     this->assignedParticipant = p;
 }
 
-void WorkItem::update(Event event, WorkFlowComponent *source)
-{
-    // STILL NEEDS TO BE IMPLEMENTED
-}
+
 
 std::vector<WorkFlowComponent *> WorkItem::getChildren()
 {
-    std::vector<WorkFlowComponent *> v;
-    v.push_back(this);
-    return v;
+    return std::vector<WorkFlowComponent *>();
 }
 
 std::string WorkItem::getName()
@@ -65,27 +56,7 @@ std::string WorkItem::getName()
     return this->name;
 }
 
-void WorkItem::review(WorkItemState *s)
+void WorkItem::accept(WorkFlowVisitor *v)
 {
-    this->state->review(this);
-}
-
-void WorkItem::approve(WorkItemState *s)
-{
-    this->state->approve(this);
-}
-
-void WorkItem::cancel(WorkItemState *s)
-{
-    this->state->cancel(this);
-}
-
-void WorkItem::finish(WorkItemState *s)
-{
-    this->state->finish(this);
-}
-
-void WorkItem::beginWork(WorkItemState *s)
-{
-    this->state->beginWork(this);
+    v->visit(this);
 }
