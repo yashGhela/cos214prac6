@@ -7,8 +7,8 @@ class BeginWorkVisitor : public WorkFlowVisitor // Attempts to change the boolea
 private:
     /* data */
 public:
-    BeginWorkVisitor(/* args */);      // constructor
-    ~BeginWorkVisitor();               // destructor
+    BeginWorkVisitor(/* args */){};      // constructor
+    ~BeginWorkVisitor(){};               // destructor
     void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
     void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
 };

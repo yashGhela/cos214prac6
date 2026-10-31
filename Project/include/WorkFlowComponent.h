@@ -1,13 +1,14 @@
 #ifndef WORKFLOWCOMPONENT_H
 #define WORKFLOWCOMPONENT_H
-#include "WorkFlowMemento.h"
-#include "Participant.h"
+
 #include <vector>
 #include <string>
 #include "ActionObserver.h"
+#include "EventSubject.h"
 
 class WorkFlowVisitor;
-class WorkFlowComponent: public ActionObserver // The Abstract Interface of the WorkFlow Composite Structure.
+class WorkFlowMemento;
+class WorkFlowComponent: public EventSubject, public ActionObserver // The Abstract Interface of the WorkFlow Composite Structure.
 {
 private:
 protected:
@@ -20,7 +21,7 @@ protected:
     void applyAction(const Event& event, WorkFlowComponent* source) override;
 public:
     WorkFlowComponent() : inProgress(false), inReview(false), approved(false), finished(false), cancelled(false) {} // Constructor with Inline definition, setting all state booleans to false.
-    virtual ~WorkFlowComponent();                                                                                   // Virtual Destructor
+    virtual ~WorkFlowComponent(){};                                                                                   // Virtual Destructor
     virtual WorkFlowMemento *createMemento() = 0;                                                                   // Pure virtual function to create a memento of the WorkFlowComponent.
     virtual void setMemento(WorkFlowMemento *memento) = 0;                                                          // Pure virtual function to set a memento of the WorkFlowComponent.
     virtual std::vector<WorkFlowComponent *> getChildren() = 0;                                                     // Pure virtual function to get the children stored in the WorkFlowComponent. Gets overriden differently for a leaf and a composite.

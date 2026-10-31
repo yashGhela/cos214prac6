@@ -7,8 +7,8 @@ class FinishVisitor : public WorkFlowVisitor // Attempts to change the boolean f
 private:
     /* data */
 public:
-    FinishVisitor(/* args */);         // constructor
-    ~FinishVisitor();                  // destructor
+    FinishVisitor(/* args */){};         // constructor
+    ~FinishVisitor(){};                  // destructor
     void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
     void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
 };

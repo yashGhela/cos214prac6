@@ -7,8 +7,8 @@ class ApproveVisitor : public WorkFlowVisitor // Attempts to change the boolean 
 private:
     /* data */
 public:
-    ApproveVisitor(/* args */);        // constructor
-    ~ApproveVisitor();                 // destructor
+    ApproveVisitor(/* args */){};        // constructor
+    ~ApproveVisitor(){};                 // destructor
     void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
     void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
 };
