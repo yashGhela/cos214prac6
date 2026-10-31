@@ -14,7 +14,7 @@ TIVIDYFacade::TIVIDYFacade() : workflow(nullptr), history(new VersionHistory()),
 TIVIDYFacade::~TIVIDYFacade()
 {
     delete workflow;
-    delete histroy;
+    delete history;
 }
 
 void TIVIDYFacade::StartWorkFlow()
@@ -38,7 +38,7 @@ void TIVIDYFacade::ReviewWorkFlow()
     if(workflow)
     {
         std::cout<<"Reviewing Workflow"<<std::endl;
-        workflow->review(workflow->getState);
+        workflow->review(workflow->getState());
     }
 }
 
@@ -52,7 +52,7 @@ void TIVIDYFacade::CompleteWorkFlow()
     if(workflow)
     {
         std::cout<<"Completing Workflow"<<std::endl;
-        workflow->finish(workflow->getState);
+        workflow->finish(workflow->getState());
     }
 }
 
@@ -61,7 +61,7 @@ void TIVIDYFacade::CancelWorkFlow()
     if(workflow)
     {
         std::cout<<"Canceling Workflow"<<std::endl;
-        workflow->cancel(workflow->getState);
+        workflow->cancel(workflow->getState());
     }
 }
 
@@ -74,14 +74,14 @@ void TIVIDYFacade::AddParticipant(Participant *participant)
     }
 }
 
-void TIVIDYFacade::getProgress()
+int TIVIDYFacade::getProgress()
 {
     if(!workflow)
         return 0;
 
     std::vector<WorkFlowComponent*> children = workflow->getChildren();
     if(children.empty())
-        return 0
+        return 0;
 
     int finished = 0;
     for(size_t i = 0; i < children.size(); ++i)
@@ -96,7 +96,7 @@ void TIVIDYFacade::getProgress()
 
 }
 
-void TIVIDYFacade::getVersion()
+int TIVIDYFacade::getVersion()
 {
     return currentVersion;
 }
