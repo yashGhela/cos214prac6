@@ -56,7 +56,7 @@ to clear:
     </td>
   </tr>
   <tr>
-    <td>Rei</td>
+    <td>Rei Piater-Boswell</td>
     <td>
       <ul>
         <li>Decorator design pattern</li>
