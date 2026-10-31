@@ -24,13 +24,12 @@ class Event{
 
     const std::vector<WorkFlowObserver*>& getReactors() const { return reactors; }
 
-
-
+    
 };
 
 class EventRegistry{
     private:
-    std::set<std::string> events;
+    std::set<std::string, Event> events;
 
     public:
 
@@ -40,7 +39,7 @@ class EventRegistry{
     }//this function jsut sets it so kitchen_closed and KITCHEN_CLOSED are the same thing
     bool define(const std::string& name) { return events.insert(normalise(name)).second; }
     bool exists(const std::string& name) const { return events.count(normalise(name)) > 0; }
-    const std::set<std::string>& all() const { return events; }
+    const std::set<std::string, Event>& all() const { return events; }
 
 
 };
