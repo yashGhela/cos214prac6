@@ -167,12 +167,12 @@ facade.AssignParticipant(p2, Texturing);
 
 void setupRestaurantScenario(TIVIDYFacade& facade){
     facade.CreateWorkFlow("Hungry Cat Restaurant");
-    Workflow* food = dynamic_cast<Workflow*>(facade.GetCurrentWorkflow());
+    WorkFlow* food = dynamic_cast<WorkFlow*>(facade.GetCurrentWorkflow());
     if(food==nullptr){
         cout<<"Oops, something went wrong with setting up the scenario!"<<endl;
         return;
     }
-    Workflow* serversFront = new Workflow("Front Orders");
+    WorkFlow* serversFront = new WorkFlow("Front Orders");
     WorkItem* greetCustomer = new WorkItem("Greet Customers");
     WorkItem* giveDrinks = new WorkItem("Serving Drinks");
     WorkItem* smallOrder = new WorkItem("Small Chips");
@@ -185,7 +185,7 @@ void setupRestaurantScenario(TIVIDYFacade& facade){
     serversFront->addChild(serveFood);
     food->addChild(serversFront);
 
-    Workflow* cooksBack = new Workflow("Back Kitchen");
+    WorkFlow* cooksBack = new WorkFlow("Back Kitchen");
     WorkItem* washHands = new WorkItem("Washing Hands");
     WorkItem* cleanDishes = new WorkItem("Cleaning Dirty Dishes");
     WorkItem* prepFood = new WorkItem("Preparing Ingredients");
@@ -213,12 +213,11 @@ void setupRestaurantScenario(TIVIDYFacade& facade){
     completeStaff->addMember(serverTeam);
     completeStaff->addMember(cooksTeam);
 
-    facade.AddParticipant(completeStaff);
-    facade.AddParticipant(s1, greetCustomer);
-    facade.AddParticipant(s1, getOrders);
-    facade.AddParticipant(c2, cleanDishes);
-    facade.AddParticipant(c2, prepFood);
-    facade.AddParticipant(a1, cookOrders);
+    facade.AssignParticipant(s1, greetCustomer);
+    facade.AssignParticipant(s1, getOrders);
+    facade.AssignParticipant(c2, cleanDishes);
+    facade.AssignParticipant(c2, prepFood);
+    facade.AssignParticipant(a1, cookOrders);
 }
 
 
@@ -243,7 +242,7 @@ void MenuHistoryWorkflow(TIVIDYFacade& facade){
     cout<< "choice - ";
 }
 //can maybe reuse below func for the team input stuff - remove if not want :3 - Rei
-void TeamsViewMenu(int optionChosen, vector<Teams*>& teams, TIVIDYFacade& facade){
+void TeamsViewMenu(int optionChosen, vector<Team*>& teams, TIVIDYFacade& facade){
     switch(optionChosen){
         //view Team members
         case 1:{
@@ -431,16 +430,12 @@ int main(){
                 switch(managaeChoice){
                     case 1:{
                         clearConsole();
-                        vector<Teams*> teams = facade.getTeams();
+                        vector<Team*> teams = facade.getTeams();
                         if(teams.empty()){
                             cout<<"No teams found.\n";
                             break;
                         }
-                        vector<Team*> teams = facade.getTeams();
-                        if (teams.empty()){
-                            cout << "No teams found.\n";
-                            break;
-                        }
+
                         cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
                         for (size_t i = 0; i < teams.size(); i++){
                             cout << i + 1 << ". " << teams[i]->getName() << "\n";
