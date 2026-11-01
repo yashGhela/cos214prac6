@@ -1,1 +1,32 @@
 services:
+  workflow_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 5Guys_TIVIDY
+    volumes:
+      - workflow_data:/app
+  workflow_valgrind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: ["tools"]
+    command: ["make", "valgrind"]
+    volumes:
+      - workflow_data:/app
+  workflow_gdb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: ["tools"]
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: ["gdb", "./TIVIDY"]
+    volumes:
+      - workflow_data:/app
+volumes:
+  workflow_data:

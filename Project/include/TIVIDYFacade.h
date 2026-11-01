@@ -24,9 +24,9 @@ public:
 
     void AddParticipant(Participant* participant);
 
-    void getProgress();
+    int getProgress();
 
-    void getVersion();
+    int getVersion();
     void saveVersion();
     void regressVersion(int version);
 

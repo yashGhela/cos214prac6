@@ -4,21 +4,15 @@
 #include "WorkFlowObserver.h"
 #include "Event.h"
 
-#include <algorithm>
-#include <vector>
+class WorkFlowComponent;
 
-using namespace std;
-class WorkflowComponent;
-
-class EventSubject{
-private:
-    vector<WorkFlowObserver*> observerList;
+class EventSubject {
 public:
-    virtual void Attach(WorkFlowObserver* observer);
-    virtual void Detach(WorkFlowObserver* observer);
-    virtual void notify(Event event,WorkflowComponent* source);
     virtual ~EventSubject();
+
+    virtual void Attach(Event& event, WorkFlowObserver* observer);
+    virtual void Detach(Event& event, WorkFlowObserver* observer);
+    virtual void notify(const Event& event, WorkFlowComponent* source);
 };
 
 #endif
-

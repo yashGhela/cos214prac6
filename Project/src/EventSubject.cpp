@@ -1,20 +1,20 @@
 #include "../include/EventSubject.h"
 
-EventSubject::~EventSubject(){}
+EventSubject::~EventSubject() {}
 
-void EventSubject::Attach(WorkFlowObserver* observer) {
-	//add observer to vector. also checks for multiple
-    if (std::find(observerList.begin(),observerList.end(),observer) == observerList.end()){
-		observerList.push_back(observer);
-	}
+void EventSubject::Attach(Event& event, WorkFlowObserver* observer) {
+    // Event::addReactor already ignores duplicates
+    event.addReactor(observer);
 }
 
-void EventSubject::Detach(WorkFlowObserver* observer) {
-	//remove specified observer from vector
-	observerList.erase(std::remove(observerList.begin(), observerList.end(), observer), observerList.end());
+void EventSubject::Detach(Event& event, WorkFlowObserver* observer) {
+    event.removeReactor(observer);
 }
-void EventSubject::notify(Event event,WorkflowComponent* source) {
-    for (WorkFlowObserver* observer : observerList) {
+
+void EventSubject::notify(const Event& event, WorkFlowComponent* source) {
+    // copy the list so a reactor can detach itself while reacting
+    std::vector<WorkFlowObserver*> snapshot = event.getReactors();
+    for (WorkFlowObserver* observer : snapshot) {
         observer->update(event, source);
     }
 }

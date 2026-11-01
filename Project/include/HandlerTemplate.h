@@ -9,9 +9,10 @@
 
 class WorkFlowComponent;
 class WorkItem;
+class ActionObserver;
 
 template <typename T>
-class HandlerTemplate: public WorkHandler{
+class HandlerTemplate: public WorkHandler, public ActionObserver{
 
     private:
     ProcessHandler* processHandler;
@@ -19,11 +20,14 @@ class HandlerTemplate: public WorkHandler{
 
     HandlerTemplate(ProcessHandler *ph = nullptr) : processHandler(ph) {}
 
-    void update(const Event& event, WorkFlowComponent* source) override ;
-    bool handleRequest(WorkItem& item) override;
+    
+    bool handleRequest(WorkItem* item) override;
     void process(WorkItem& item) override{
         if (processHandler) processHandler->process(item);
     }
+
+    // protected:
+    // void applyAction(const Event& event, WorkFlowComponent* source) override;
 
 
 };

@@ -1,9 +1,10 @@
 #include "WorkHandler.h"
 #include "HandlerTemplate.h"
+#include "VisitorTable.h"
 
 
 template <typename T>
-bool HandlerTemplate<T>::handleRequest(WorkItem& item){
+bool HandlerTemplate<T>::handleRequest(WorkItem* item){
 
     if(item){
         process(item);
@@ -14,3 +15,4 @@ bool HandlerTemplate<T>::handleRequest(WorkItem& item){
     return WorkHandler::successor ? WorkHandler::successor->handleRequest(item) : false;
 
 }
+

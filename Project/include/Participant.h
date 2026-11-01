@@ -18,20 +18,20 @@ class Participant{
     public:
 
     Participant(std::string name): part_name((name)){};
-    virtual ~Participant();
+    virtual ~Participant(){};
     virtual void performWork(){
-        for(auto& [id,item]: assignedWork){
-            if(!chain || !chain->handleRequest(*item)){
-                std::cout<<name<<": nobody can handle this item "<<id <<"\n";
+        for(auto& entry: assignedWork){
+            WorkItem* item = entry.second;
+            if(!chain || !chain->handleRequest(item)){
+                std::cout<<getName()<<": nobody can handle this item " <<"\n";
             }
         }
     }
 
 
-    std::string getName() const;
 
 
-    std::string Participant::getName() const { return part_name; }
+    std::string getName() const { return part_name; }
     void setChain(WorkHandler* head) { chain = head; }
     void assignWork(WorkItem* item)  { assignedWork[item->getName()] = item; }
 
