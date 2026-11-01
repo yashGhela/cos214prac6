@@ -22,6 +22,8 @@ In Project directory run:
 Using Docker Compose:   
   - Run main:   
     docker-compose up --build   
+    docker-compose run --rm workflow_dev
+    
   - Run Valgrind:   
     docker-compose up --profile tools run --rm workflow_valgrind   
   - Run GDB:   

@@ -7,6 +7,7 @@
 #include "Team.h"
 #include "Roles.h"
 #include "RolesApprover.h"
+#include "Event.h"
 
 using namespace std;
 
@@ -66,6 +67,40 @@ void printError(const string& message) {
     cout << "\033[91m" << message << "\033[0m\n";
 }
 
+struct ActionOption {
+    const char* label;
+    ActionRegistry action;
+};
+
+static const ActionOption actionOptions[] = {
+    {"Begin work",       ActionRegistry::BeginWork},
+    {"Send for review",  ActionRegistry::InReview},
+    {"Approve",          ActionRegistry::Approved},
+    {"Cancel",           ActionRegistry::Cancel},
+    {"Finish",           ActionRegistry::Finish}
+};
+static const int actionOptionCount = 5;
+
+string actionLabel(ActionRegistry a) {
+    for (int i = 0; i < actionOptionCount; ++i)
+        if (actionOptions[i].action == a)
+            return actionOptions[i].label;
+    return "unknown";
+}
+
+// Shows the actions and lets the user pick one. Returns false on an invalid choice.
+bool chooseAction(ActionRegistry& out) {
+    cout << "\nWhat should this event do?\n";
+    for (int i = 0; i < actionOptionCount; ++i)
+        cout << i + 1 << ". " << actionOptions[i].label << "\n";
+    cout << "choice - ";
+    int choice = readInt();
+    if (choice < 1 || choice > actionOptionCount)
+        return false;
+    out = actionOptions[choice - 1].action;
+    return true;
+}
+
 string statusOf(const WorkFlowComponent& c) {
     if (c.isCancelled())  return "cancelled";
     if (c.isFinished())   return "finished";
@@ -89,6 +124,7 @@ struct Scenario {
     TIVIDYFacade facade;
     vector<Participant*> owned; // participants created for this scenario
     bool ready;                 // has the scenario been set up yet?
+    EventRegistry events;
 
     Scenario() : ready(false) {}
     ~Scenario() {
@@ -572,7 +608,8 @@ void customiseWorkflow(Scenario& sc) {
         cout << "\n";
         cout << "1. Add Workflow                  | 2. Add Member/Team to Main Workflow     | 3. Add Work Item to Workflow\n";
         cout << "4. Assign Member/Team to Team    | 5. Assign Work Item to Member           | 6. Create Member\n";
-        cout << "7. Create Team                   | 8. Create Work Item                     | 0. Finish Customisation\n\n";
+        cout << "7. Create Team                   | 8. Create Work Item                     | 9. Create Event\n";
+        cout << "10. Add Reactor to Event         | 0. Finish Customisation\n\n";
         cout << "choice - ";
         workflowCustomChoice = readInt();
 
@@ -723,6 +760,72 @@ void customiseWorkflow(Scenario& sc) {
                 cout << "\033[94m" << itemName << " has been created.\n\033[0m";
                 break;
             }
+            case 9: {
+            string eventName = readLine("Enter name of new event (e.g. Kitchen Closed): ");
+            if (eventName.empty()) {
+                printError("Invalid name entered!");
+                break;
+            }
+            if (sc.events.exists(eventName)) {
+                printError("An event with that name already exists.");
+                break;
+            }
+            ActionRegistry action;
+            if (!chooseAction(action)) {
+                printError("Invalid action chosen.");
+                break;
+            }
+            sc.events.define(eventName, action);
+            cout << "\033[94m" << EventRegistry::normalise(eventName)
+                << " has been created (" << actionLabel(action) << ").\n\033[0m";
+            break;
+            }
+            case 10: {
+                vector<string> names = sc.events.all();
+                if (names.empty()) {
+                    printError("There are no events yet. Create one first.");
+                    break;
+                }
+                cout << "Events:\n";
+                for (size_t i = 0; i < names.size(); i++)
+                    cout << i + 1 << ". " << names[i] << "\n";
+
+                string eventName = readLine("Enter name of event EXACTLY: ");
+                Event* event = sc.events.get(eventName);
+                if (event == nullptr) {
+                    cout << eventName << " cannot be found.\n";
+                    break;
+                }
+
+                string reactorName = readLine("Enter name of workflow or work item that should react EXACTLY: ");
+                WorkFlowObserver* reactor = nullptr;
+                if (reactorName == root->getName()) {
+                    reactor = root;
+                } else {
+                    WorkFlow* flow = findByName(currentflows, reactorName);
+                    if (flow != nullptr)
+                        reactor = flow;
+                    else
+                        reactor = findByName(currentWorkItems, reactorName);
+                }
+                if (reactor == nullptr) {
+                    cout << reactorName << " cannot be found.\n";
+                    break;
+                }
+
+                // the main workflow already reaches everything inside it
+                const vector<WorkFlowObserver*>& current = event->getReactors();
+                WorkFlowObserver* rootObserver = static_cast<WorkFlowObserver*>(root);
+                if (reactor != rootObserver &&
+                    find(current.begin(), current.end(), rootObserver) != current.end()) {
+                    printError("The main workflow already reacts to this event, and that covers everything inside it.");
+                    break;
+                }
+
+                root->Attach(*event, reactor);
+                cout << "\033[94m" << reactorName << " will now react to " << event->getName() << ".\n\033[0m";
+                break;
+            }
             case 0:
                 break;
             default: {
@@ -759,6 +862,42 @@ void customiseWorkflow(Scenario& sc) {
 // ============================================================================
 //  The manage menu, shared by all three scenarios
 // ============================================================================
+
+void triggerEventMenu(Scenario& sc) {
+    WorkFlow* root = dynamic_cast<WorkFlow*>(sc.facade.GetCurrentWorkflow());
+    if (root == nullptr) {
+        printError("There is no workflow to run events on.");
+        return;
+    }
+
+    vector<string> names = sc.events.all();
+    if (names.empty()) {
+        printError("No events have been created yet.");
+        return;
+    }
+
+    cout << "====  EVENTS  ====\n\n";
+    for (size_t i = 0; i < names.size(); i++) {
+        Event* e = sc.events.get(names[i]);
+        cout << i + 1 << ". " << names[i]
+             << "  [" << actionLabel(e->getAction()) << ", "
+             << e->getReactors().size() << " reactors]\n";
+    }
+
+    string eventName = readLine("\nEnter name of event to trigger EXACTLY: ");
+    Event* event = sc.events.get(eventName);
+    if (event == nullptr) {
+        cout << eventName << " cannot be found.\n";
+        return;
+    }
+    if (event->getReactors().empty()) {
+        printError("Nobody reacts to this event yet. Add a reactor in the customise menu first.");
+        return;
+    }
+
+    cout << "Triggering " << event->getName() << "...\n";
+    root->notify(*event, root);
+}
 
 void manageLoop(Scenario& sc, bool custom) {
     TIVIDYFacade& facade = sc.facade;
@@ -802,6 +941,14 @@ void manageLoop(Scenario& sc, bool custom) {
             case 7: {
                 if (custom)
                     customiseWorkflow(sc);
+                else
+                    printError("Invalid choice!");
+                break;
+            }
+            // trigger event (custom scenario only)
+            case 8: {
+                if (custom)
+                    triggerEventMenu(sc);
                 else
                     printError("Invalid choice!");
                 break;

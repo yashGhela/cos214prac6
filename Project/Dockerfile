@@ -13,6 +13,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN make
+RUN make clean && make
 
-CMD ["./TIVIDY"]
+CMD ["make", "run"]

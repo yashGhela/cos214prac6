@@ -1,0 +1,4 @@
+build/
+*.o
+TIVIDY
+.git/
