@@ -222,7 +222,7 @@ TEST_CASE("EventSubject: an observer may detach itself while being notified")
     CHECK(after.calls == 2);
 }
 
-TEST_CASE("EventSubject: attaching the same observer twice is ignored" * doctest::may_fail())
+TEST_CASE("EventSubject: attaching the same observer twice is ignored")
 {
     EventSubject subject;
     Event e("e", ActionRegistry::BeginWork);
