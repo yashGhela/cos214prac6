@@ -1,4 +1,4 @@
-FROM ubunutu:latest
+FROM ubuntu:latest
 #ensure 'OS' up to date + install make gdb c++ compiler + valgrind + other important things for Docker to use
 RUN apt-get update && apt-get install -y \
     build-essential \
