@@ -41,6 +41,8 @@ class Participant{
     virtual bool hasRole(const std::string &role) const {return part_roles.count(role);};
     virtual int getWorkLoad() const {return static_cast<int>(assignedWork.size());};
     const std::string& name() const {return part_name;};
+    const std::map<std::string, WorkItem*>& getAssignedWork() const{return assignedWork;}//allow showing workitems assigned to participants
+    
     
 
 };
