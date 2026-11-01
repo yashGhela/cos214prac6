@@ -1,3 +1,4 @@
+// Memento pattern: WorkFlowMemento (Memento), WorkFlow/WorkItem (Originators), VersionHistory (Caretaker).
 #include "doctest.h"
 #include "test_helpers.h"
 
