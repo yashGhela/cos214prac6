@@ -1,16 +1,39 @@
+/**
+ * @file FinishVisitor.h
+ * @brief Visitor that moves a component from approved to finished.
+ */
 #ifndef FINISHVISITOR_H
 #define FINISHVISITOR_H
 #include "WorkFlowVisitor.h"
 #include <iostream>
-class FinishVisitor : public WorkFlowVisitor // Attempts to change the boolean flags of a workflow component that represent state from approved to finished if is possible in its current state.
+
+/**
+ * @brief Visitor that moves a component from approved to finished.
+ *
+ * A WorkItem must be approved. A WorkFlow must be approved and every child must be approved, finished or cancelled. Otherwise a message is printed and nothing changes.
+ */
+class FinishVisitor : public WorkFlowVisitor
 {
 private:
     /* data */
 public:
-    FinishVisitor(/* args */){};         // constructor
-    ~FinishVisitor(){};                  // destructor
-    void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
-    void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
+    /** @brief Constructor. */
+    FinishVisitor(/* args */){};
+
+    /** @brief Destructor. */
+    ~FinishVisitor(){};
+
+    /**
+     * @brief Applies the transition to a WorkFlow.
+     * @param wf The workflow to visit.
+     */
+    void visit(WorkFlow *wf) override;
+    
+    /**
+     * @brief Applies the transition to a WorkItem.
+     * @param wi The work item to visit.
+     */
+    void visit(WorkItem *wi) override;
 };
 
 #endif

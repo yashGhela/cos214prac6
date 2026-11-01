@@ -1,3 +1,7 @@
+/**
+ * @file EventSubject.cpp
+ * @brief Implementation of EventSubject.
+ */
 #include "../include/EventSubject.h"
 
 EventSubject::~EventSubject() {}

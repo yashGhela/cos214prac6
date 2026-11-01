@@ -1,3 +1,7 @@
+/**
+ * @file TestScenario.cpp
+ * @brief Commented-out demo scenario (animation studio) kept for reference.
+ */
 // #include <iostream>
 // #include "WorkFlow.h"
 // #include "WorkItem.h"

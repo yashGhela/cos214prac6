@@ -1,3 +1,7 @@
+/**
+ * @file Member.cpp
+ * @brief Implementation of Member.
+ */
 #include "Member.h"
 #include "FinishVisitor.h"
 

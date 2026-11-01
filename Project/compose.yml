@@ -4,16 +4,19 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: 5Guys_TIVIDY
-    volumes:
-      - workflow_data:/app
+    command: ["make", "run"]
+    stdin_open: true   # the program reads menu choices from the keyboard
+    tty: true
+
   workflow_valgrind:
     build:
       context: .
       dockerfile: Dockerfile
     profiles: ["tools"]
     command: ["make", "valgrind"]
-    volumes:
-      - workflow_data:/app
+    stdin_open: true
+    tty: true
+
   workflow_gdb:
     build:
       context: .
@@ -26,7 +29,3 @@ services:
     security_opt:
       - seccomp:unconfined
     command: ["gdb", "./TIVIDY"]
-    volumes:
-      - workflow_data:/app
-volumes:
-  workflow_data:

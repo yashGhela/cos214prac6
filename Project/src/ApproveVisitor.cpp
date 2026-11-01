@@ -1,3 +1,7 @@
+/**
+ * @file ApproveVisitor.cpp
+ * @brief Implementation of ApproveVisitor.
+ */
 #include "ApproveVisitor.h"
 #include "WorkFlow.h"
 #include "WorkItem.h"

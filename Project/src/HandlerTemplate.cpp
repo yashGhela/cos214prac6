@@ -1,3 +1,7 @@
+/**
+ * @file HandlerTemplate.cpp
+ * @brief Implementation of HandlerTemplate::handleRequest().
+ */
 #include "WorkHandler.h"
 #include "HandlerTemplate.h"
 #include "VisitorTable.h"

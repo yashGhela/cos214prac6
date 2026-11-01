@@ -1,3 +1,7 @@
+/**
+ * @file WorkFlow.cpp
+ * @brief Implementation of WorkFlow.
+ */
 #include "WorkFlow.h"
 #include "WorkFlowVisitor.h"
 #include <algorithm>

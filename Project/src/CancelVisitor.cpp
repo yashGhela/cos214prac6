@@ -1,3 +1,7 @@
+/**
+ * @file CancelVisitor.cpp
+ * @brief Implementation of CancelVisitor.
+ */
 #include "CancelVisitor.h"
 #include "WorkFlow.h"
 #include "WorkItem.h"

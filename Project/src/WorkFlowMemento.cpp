@@ -1,3 +1,7 @@
+/**
+ * @file WorkFlowMemento.cpp
+ * @brief Implementation of WorkFlowMemento.
+ */
 #include "WorkFlowMemento.h"
 
 std::map<std::string, std::vector<bool>> WorkFlowMemento::getState()
