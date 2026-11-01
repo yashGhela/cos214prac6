@@ -1,7 +1,6 @@
 #pragma once 
 
-#include "WorkFlowComponent.h"
-#include "WorkItem.h"
+
 #include "Event.h"
 
 
@@ -12,14 +11,14 @@ class WorkItem;
 
 class WorkHandler{
 
-    private:
+    protected:
     WorkHandler* successor;
 
     public:
     virtual ~WorkHandler();
     virtual void update(const Event& event, WorkFlowComponent* source) const =0;
     virtual void setSuccessor(WorkHandler* next){successor=next;};
-    virtual bool handleRequest(WorkItem& item)=0;
+    virtual bool handleRequest(WorkItem* item)=0;
     virtual void process(WorkItem& item)=0;
 
 };

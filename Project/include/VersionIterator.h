@@ -11,6 +11,7 @@ class VersionIterator:public Iterator{
         std::map<int, WorkFlowMemento*>::iterator current;       
     public:
         VersionIterator(std::map<int, WorkFlowMemento*>* versions);
+        ~VersionIterator();
         void next();
         void first();
         bool isDone();

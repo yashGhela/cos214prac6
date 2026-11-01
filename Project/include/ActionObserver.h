@@ -7,7 +7,7 @@
 
 class ActionObserver : public WorkFlowObserver {
 public:
-    ~ActionObserver() override = default;
+    ~ActionObserver(){};
 
     void update(const Event& event, WorkFlowComponent* source) final {
         if (!shouldReact(event, source)) return;

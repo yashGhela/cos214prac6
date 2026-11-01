@@ -1,4 +1,4 @@
-#ifndef ROLES_APPORVER_H
+#ifndef ROLES_APPROVER_H
 #define ROLES_APPROVER_H
 #include "Roles.h"
 #include <string>

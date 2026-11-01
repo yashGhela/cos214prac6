@@ -1,16 +1,19 @@
 #ifndef WORKITEM_H
 #define WORKITEM_H
 #include "WorkFlowComponent.h"
-#include "WorkFlowObserver.h"
-#include "WorkFlowVisitor.h"
-#include "ActionObserver.h"
 
-class WorkItem : public WorkFlowComponent, public ActionObserver // The WorkItem class that publically inherits from WorkFLowComponent and WorkFlowObserver, implementing the interfaces and acting as the Leave of the WorkFlow Composite.
+
+class Participant;
+class WorkFlowMemento;
+class WorkFlowVisitor;
+
+class WorkItem : public WorkFlowComponent // The WorkItem class that publically inherits from WorkFLowComponent and WorkFlowObserver, implementing the interfaces and acting as the Leave of the WorkFlow Composite.
 {
 private:
     Participant *assignedParticipant; // The current Participant assigned to the WorkItem.
     std::string name;                 // The name of the WorkItem.
-
+protected:
+    void applyAction(const Event& event, WorkFlowComponent* source) override;
 public:
     WorkItem(std::string n);                                 // Constructor for a WorkItem. Takes a string as a parameter to assign as its name.
     ~WorkItem();                                             // Destructor for a WorkItem.

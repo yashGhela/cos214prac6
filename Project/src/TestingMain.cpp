@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cassert>
 
-int main(){
+int testingMain(){
 
     //WORKFLOW COMPOSITE UNIT TESTING
 

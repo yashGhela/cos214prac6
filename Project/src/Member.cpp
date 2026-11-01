@@ -3,9 +3,9 @@
 
 void Member::performWork()
 {
-    if (!chain || !chain->handleRequest(*memberWork))
+    if (!chain || !chain->handleRequest(memberWork))
     {
-        std::cout << name << ": nobody can handle this item " << memberWork->getName() << "\n";
+        std::cout << getName() << ": nobody can handle this item " << memberWork->getName() << "\n";
     }
 }
 
@@ -16,10 +16,12 @@ void Member::doWork()
 
 void Member::getWork()
 {
-    for (auto &[id, item] : assignedWork)
+    for (auto &entry: assignedWork)
     {
+        WorkItem* item = entry.second;
         if (item && item->getParticipant() == nullptr)
         {
+            
             item->setParticipant(this);
             memberWork = item;
             return;

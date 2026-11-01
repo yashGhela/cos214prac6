@@ -7,8 +7,8 @@ class ReviewVisitor : public WorkFlowVisitor // Attempts to change the boolean f
 private:
     /* data */
 public:
-    ReviewVisitor(/* args */);         // constructor
-    ~ReviewVisitor();                  // destructor
+    ReviewVisitor(/* args */){};         // constructor
+    ~ReviewVisitor(){};                  // destructor
     void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
     void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
 };

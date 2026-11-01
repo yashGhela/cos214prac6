@@ -21,13 +21,13 @@ class HandlerTemplate: public WorkHandler, public ActionObserver{
     HandlerTemplate(ProcessHandler *ph = nullptr) : processHandler(ph) {}
 
     
-    bool handleRequest(WorkItem& item) override;
+    bool handleRequest(WorkItem* item) override;
     void process(WorkItem& item) override{
         if (processHandler) processHandler->process(item);
     }
 
-    protected:
-    void applyAction(const Event& event, WorkFlowComponent* source) override;
+    // protected:
+    // void applyAction(const Event& event, WorkFlowComponent* source) override;
 
 
 };

@@ -11,19 +11,22 @@ void Team::removeMember(const std::string& name) { teamMembers.erase(name); }
 
 
 void Team::doWork() {
-    for(const auto& [_,t]:teamMembers){
+    for(const auto& entry:teamMembers){
+        Participant* t = entry.second;
         t->doWork();
     }
 }
 
 void Team::getWork() {
-    for(const auto& [_,t]:teamMembers){
+    for(const auto& entry:teamMembers){
+        Participant* t = entry.second;
         t->getWork();
     }
 }
 
 void Team::submitWork() {
-    for(const auto& [_,t]:teamMembers){
+    for(const auto& entry:teamMembers){
+        Participant* t = entry.second;
         t->submitWork();
     }
 }
