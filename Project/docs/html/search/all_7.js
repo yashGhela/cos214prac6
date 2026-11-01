@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['get_84',['get',['../classEventRegistry.html#a66957b6a64db5090723b2ac0a05c2879',1,'EventRegistry']]],
+  ['getaction_85',['getAction',['../classEvent.html#a313f15d33840be91b45082d8211ffa9b',1,'Event']]],
+  ['getassignedwork_86',['getAssignedWork',['../classParticipant.html#ad92a773a65dd6681c3ac12f276334b10',1,'Participant']]],
+  ['getchildren_87',['getChildren',['../classWorkFlow.html#ae48ea89d4a7660648dded2601c9f625f',1,'WorkFlow::getChildren()'],['../classWorkFlowComponent.html#af986e50d80ddee7a871aaeaf3ad10c6d',1,'WorkFlowComponent::getChildren()'],['../classWorkItem.html#acb45833a06e3d187c6822be09cc4ce95',1,'WorkItem::getChildren()']]],
+  ['getcurrentworkflow_88',['GetCurrentWorkflow',['../classTIVIDYFacade.html#ae6737f80e4e8a42b0786879a31666389',1,'TIVIDYFacade']]],
+  ['getmembers_89',['getMembers',['../classTeam.html#acb14c48c25c736c4d7b863ef8c22f3d4',1,'Team']]],
+  ['getmemento_90',['getMemento',['../classVersionHistory.html#a812ce01fb65738148011140bc89a4384',1,'VersionHistory']]],
+  ['getname_91',['getName',['../classEvent.html#a36453ab5a21b660a61f2a0369e2689e8',1,'Event::getName()'],['../classWorkItem.html#ae113b02f5120888115e3d5acc291e911',1,'WorkItem::getName()'],['../classWorkFlowComponent.html#a3f790b3de97b2b6f98487ad6fd9fceaa',1,'WorkFlowComponent::getName()'],['../classWorkFlow.html#acd0c3c516ff7a9350da27cdd535ef09a',1,'WorkFlow::getName()'],['../classParticipant.html#a72d15f6c1f9c7a4d185f4e104ee164ce',1,'Participant::getName()']]],
+  ['getparticipant_92',['getParticipant',['../classWorkItem.html#a4774ca55162c1fe925634e327212bc57',1,'WorkItem']]],
+  ['getparticipants_93',['getParticipants',['../classTIVIDYFacade.html#aea11f5c97660b08da5d43376e2c08a4e',1,'TIVIDYFacade::getParticipants()'],['../main_8cpp.html#a8e983c1614fb2b73a6894798b79e7ee0',1,'getParticipants():&#160;main.cpp']]],
+  ['getprogress_94',['getProgress',['../classTIVIDYFacade.html#a803496b5b83125c8d8a6ac62fd874bff',1,'TIVIDYFacade']]],
+  ['getreactors_95',['getReactors',['../classEvent.html#a29e7f1df33e06109ad9cf49c4fbdb6bd',1,'Event']]],
+  ['getstate_96',['getState',['../classWorkFlowMemento.html#a44e64fbfdd0795226a122ac773bc0275',1,'WorkFlowMemento']]],
+  ['getteammembers_97',['getTeamMembers',['../classTIVIDYFacade.html#ab89a9a04dcd8f9115b9db3f1a18c046d',1,'TIVIDYFacade']]],
+  ['getteams_98',['getTeams',['../classTIVIDYFacade.html#a4cbe791372f2f7ebd49658098024821e',1,'TIVIDYFacade']]],
+  ['getthechilds_99',['getTheChilds',['../classWorkFlowIterator.html#a0af11cdacb4c586aeac6e7c4944faef2',1,'WorkFlowIterator']]],
+  ['getversion_100',['getVersion',['../classTIVIDYFacade.html#ad47495f0a828bd4ed4fbde0f8e257d1f',1,'TIVIDYFacade']]],
+  ['getwork_101',['getWork',['../classMember.html#ace00f8189278039f2dcdc82ada3fd8aa',1,'Member::getWork()'],['../classParticipant.html#a9622b48a963caaf631c332bc1c1788f8',1,'Participant::getWork()'],['../classRoles.html#a542dd4186e7befc289f75d26f496fe45',1,'Roles::getWork()'],['../classRolesApprover.html#a01ba5409abbfceaab97151de381bd108',1,'RolesApprover::getWork()'],['../classTeam.html#acec8baa5ca58efca9d4a980b6931c381',1,'Team::getWork()']]],
+  ['getworkflows_102',['getWorkflows',['../classTIVIDYFacade.html#aed503d6c454d30606bcab0d9a3fef250',1,'TIVIDYFacade::getWorkflows()'],['../main_8cpp.html#aebf416cd40bb5cfb1148701e033061f7',1,'getWorkflows():&#160;main.cpp']]],
+  ['getworkitems_103',['getWorkItems',['../classTIVIDYFacade.html#a101b1759be67ae66fd0fed95bb64fd23',1,'TIVIDYFacade']]],
+  ['getworkload_104',['getWorkLoad',['../classParticipant.html#a35392b5d18191ead41c02fc3c2ff145f',1,'Participant::getWorkLoad()'],['../classRoles.html#ab3f081e904b7233e6af62ef7cf1966e0',1,'Roles::getWorkLoad() const override']]],
+  ['givenullerror_105',['giveNullError',['../classRoles.html#a9abf8667f33bd05de6847099db6aed5a',1,'Roles']]]
+];
