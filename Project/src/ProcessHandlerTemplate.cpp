@@ -1,3 +1,7 @@
+/**
+ * @file ProcessHandlerTemplate.cpp
+ * @brief Implementation of ProcessHandlerTemplate::process().
+ */
 #include "ProcessHandlerTemplate.h"
 
 #include "BeginWorkVisitor.h"

@@ -1,3 +1,7 @@
+/**
+ * @file BeginWorkVisitor.cpp
+ * @brief Implementation of BeginWorkVisitor.
+ */
 #include "BeginWorkVisitor.h"
 #include "WorkFlow.h"
 #include "WorkItem.h"

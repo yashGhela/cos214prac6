@@ -1,4 +1,7 @@
-
+/**
+ * @file VersionIterator.cpp
+ * @brief Implementation of VersionIterator.
+ */
 
 #include "../include/VersionIterator.h"
 

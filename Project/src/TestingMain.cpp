@@ -1,3 +1,7 @@
+/**
+ * @file TestingMain.cpp
+ * @brief Skeleton for manual unit testing; the real tests live in the tests directory.
+ */
 #include "WorkFlowComponent.h"
 #include "WorkFlowIterator.h"
 

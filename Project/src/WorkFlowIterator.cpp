@@ -1,3 +1,7 @@
+/**
+ * @file WorkFlowIterator.cpp
+ * @brief Implementation of WorkFlowIterator.
+ */
 #include "WorkFlowIterator.h"
 
 //nested traversal for sub workflows and work items. checks if workflow and if children is

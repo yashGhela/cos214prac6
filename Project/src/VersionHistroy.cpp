@@ -1,3 +1,7 @@
+/**
+ * @file VersionHistroy.cpp
+ * @brief Implementation of VersionHistory.
+ */
 #include "VersionHistory.h"
 #include "VersionIterator.h"
 

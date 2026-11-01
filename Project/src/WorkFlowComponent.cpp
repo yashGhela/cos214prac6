@@ -1,3 +1,7 @@
+/**
+ * @file WorkFlowComponent.cpp
+ * @brief Implementation of WorkFlowComponent::applyAction().
+ */
 #include "WorkFlowComponent.h"
 #include "VisitorTable.h"
 
