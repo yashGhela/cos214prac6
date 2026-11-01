@@ -129,6 +129,21 @@ public:
         for (const auto& kv : events) names.push_back(kv.first);
         return names;
     }
+
+    /**
+     * @brief Looks up a defined event.
+     *
+     * Returns a pointer to the registry's own Event, so reactors attached to it
+     * are kept. Do not copy the Event, a copy has its own separate reactor list.
+     *
+     * @param name Name of the event (normalised before the lookup).
+     * @return Pointer to the event, or nullptr if no event with that name exists.
+     */
+    Event *get(const std::string &name)
+    {
+        std::map<std::string, Event>::iterator it = events.find(normalise(name));
+        return it != events.end() ? &it->second : nullptr;
+    }
 };
 
 #endif
