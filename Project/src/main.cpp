@@ -245,12 +245,12 @@ void setupRestaurantScenario(TIVIDYFacade& facade){
     facade.AssignParticipant(a1, cookOrders);
 }
 
-
 void MenuWorkflowMang(){
     cout << "\033[1;36m\n        --- MANAGE --       \n\n\033[0m";
 
     cout << "1. View teams      | 3. View available work  | 5. View progress \n";
-    cout << "2. View workflows  | 4. View history         | 0. <-- back      \n\n";
+    cout << "2. View workflows  | 4. View history         | 6. Run current workflow \n";
+    cout << "0. <-- Back        |";
 
     cout<< "choice - ";
 }
@@ -261,10 +261,6 @@ void MenuHistoryWorkflow(TIVIDYFacade& facade){
     cout<<"\n\n";
     cout<<"0. <-- Back              | 1. Save Current Version\n";
     cout<<"2. View Saved Versions   | 3. Restore Previous Version\n";
-    /*cout << "\n\n1. Save current version\n";
-    cout << "2. View saved versions\n";
-    cout << "3. Restore a previous version\n";
-    cout << "0. <-- Back\n\n";*/
 
     cout<< "choice - ";
 }
@@ -340,137 +336,175 @@ int main(){
                     animationSetup = true;
                 }
 
-                MenuWorkflowMang();
-
                 int managaeChoice;
-                managaeChoice =readInt();
+                do{
+                    MenuWorkflowMang();
+                    managaeChoice =readInt();
 
-                switch(managaeChoice){ 
-                    //view Teams
-                    case 1:{
-                        
-                        clearConsole();
+                    switch(managaeChoice){ 
+                        //view Teams
+                        case 1:{
+                            
+                            clearConsole();
 
-                        vector<Team*> teams = facade.getTeams();
-                        if (teams.empty()){
-                            cout << "No teams found.\n";
-                            break;
-                        }
-                        cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
-                        for (size_t i = 0; i < teams.size(); i++){
-                            cout << i + 1 << ". " << teams[i]->getName() << "\n";
-                        }
-                        cout<<"\n";
+                            vector<Team*> teams = facade.getTeams();
+                            if (teams.empty()){
+                                cout<<"\033[91m" << "No teams found.\n\033[0m";
+                                break;
+                            }
+                            cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
+                            for (size_t i = 0; i < teams.size(); i++){
+                                cout << i + 1 << ". " << teams[i]->getName() << "\n";
+                            }
+                            cout<<"\n";
 
-                        cout << "\033[34m| 1. View team members   | 2. assign work  | 5. | 0. <-- back | \033[0m\n\n";
-                        cout<< "choice - ";
-                        int optionChosen;
-                        optionChosen = readInt();
+                            cout << "\033[34m| 1. View team members   | 2. assign work    | 0. <-- back    | \033[0m\n\n";
+                            cout<< "choice - ";
+                            int optionChosen;
+                            optionChosen = readInt();
 
-                        switch(optionChosen){
-                            //view Team members
-                            case 1:{
-                                cout << "Enter the number of the team you would like to view: ";
-                                int choice = readInt();
+                            switch(optionChosen){
+                                //view Team members
+                                case 1:{
+                                    cout << "Enter the number of the team you would like to view: ";
+                                    int choice = readInt();
 
-                                if (choice >= 1 && choice <= static_cast<int>(teams.size())){
-                                    Team* selectedTeam = teams[choice - 1];
-                                    cout << "\n--- " << selectedTeam->getName() << " ---\n";
-                                    vector<Participant*> members =
-                                        facade.getTeamMembers(selectedTeam);
+                                    if (choice >= 1 && choice <= static_cast<int>(teams.size())){
+                                        Team* selectedTeam = teams[choice - 1];
+                                        cout << "\n--- " << selectedTeam->getName() << " ---\n";
+                                        vector<Participant*> members =
+                                            facade.getTeamMembers(selectedTeam);
 
-                                    if (members.empty()){
-                                        cout << "This team has no members.\n";
+                                        if (members.empty()){
+                                            cout << "This team has no members.\n";
+                                        }
+                                        else{
+                                            for (size_t i = 0; i < members.size(); i++){
+                                                cout << i + 1 << ". "<< members[i]->getName() << "\n";
+                                            }
+                                        }
                                     }
                                     else{
-                                        for (size_t i = 0; i < members.size(); i++){
-                                            cout << i + 1 << ". "<< members[i]->getName() << "\n";
-                                        }
+                                        cout << "Invalid choice.\n";
                                     }
-                                }
-                                else{
-                                    cout << "Invalid choice.\n";
-                                }
-                                break;
-                            }
-
-                            //assign work
-                            case 2:{
-                                cout <<"Enter the Team you would like to assign work to";
-                                string question;
-                                getline(cin, question);
-
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                    //view Workflows
-                    case 2:{
-                        getWorkflows(facade);
-                        break;
-                    }
-                    //view available work
-                    case 3:{
-                    
-                       /*for (workflows that are not assigned){
-                            getWorkflows(facade);
-                        }
-                        */
-                        displayWorkItems(facade);
-                        break;
-                    }
-                    //view history
-                    case 4:{
-                        MenuHistoryWorkflow(facade);
-                        int optionChosen;
-                        optionChosen = readInt();
-                        switch(optionChosen){
-                            do{//loop for workflow management screen
-                                case 0:{
-                                    cout<<"Return to regular workflow screen\n";
                                     break;
                                 }
-                                case 1:{
-                                    facade.saveVersion();
-                                    break;
-                                }
+
+                                //assign work
                                 case 2:{
-                                    int topVersions = facade.getVersion();
-                                    if(topVersions==0){
-                                        cout<<"There are no currently saved versions of workflow\n";
-                                    }else{
-                                        cout<<"====  CURRENTLY SAVED VERSIONS  ====\n";
-                                        for(int i=0; i<=topVersions; i++){
-                                            cout<<"V. "<<i<<"\n";
-                                        }
-                                    }
+                                    cout <<"Enter the Team you would like to assign work to";
+                                    string question;
+                                    getline(cin, question);
+
                                     break;
                                 }
-                                case 3:{
-                                    int* prevVersion = new int(facade.getVersion()-1);
-                                    facade.regressVersion(prevVersion);
-                                    break;
-                                }
-                                default:{
-                                    cout<<"\033[91m"<<"Invalid option provided.\n";
-                                    cout<<"Please ensure you choose 0-3\n\033[0m";
-                                }
-                            }while(optionChosen!=0);
+                            }
+                            break;
                         }
-                        break;
+                        //view Workflows
+                        case 2:{
+                            if(facade.getParticipants().empty()||facade.getWorkItems().empty()){
+                                cout<<"\033[91m"<<"There are no workers or work items assigned to the workflow.\n\033[0m";
+                                break;
+                            }
+                            string workerName;
+                            cout<<"Enter name of participant to be assigned EXACTLY: ";
+                            cin>>workerName;
+                            vector<Participant*> workers = facade.getParticipants();
+                            int workerFoundAt = -1;
+                            for(int i=0; i<workers.size(); i++){
+                                if(workers.at(i)->getName()==workerName){
+                                    workerFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(workerFoundAt==-1){
+                                cout<<"\033[93m"<<workerName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                            }
+                            string workitemName;
+                            cout<<"\nEnter name of work item to be assigned EXACTLY: ";
+                            cin>>workitemName;
+                            vector<WorkItem*> workitems = facade.getWorkItems();
+                            int itemFoundAt = -1;
+                            for(int i=0; i<workitems.size(); i++){
+                                if(workitems.at(i)->getName()==workitemName){
+                                    itemFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(itemFoundAt==-1){
+                                cout<<"\033[93m"<<workitemName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                                break;
+                            }
+                            cout<<"\n";
+                            facade.AssignParticipant(workers.at(workerFoundAt), workitems.at(itemFoundAt));
+                            cout<<"\033[1;92m"<<workerName<<" has been assigned to "<<workitemName<<"\n\033[0m";
+                            break;
+                        }
+                        //view available work
+                        case 3:{
+                            displayWorkItems(facade);
+                            break;
+                        }
+                        //view history
+                        case 4:{
+                            MenuHistoryWorkflow(facade);
+                            int optionChosen;
+                            optionChosen = readInt();
+                            switch(optionChosen){
+                                do{//loop for workflow management screen
+                                    case 0:{
+                                        cout<<"Return to regular workflow screen\n";
+                                        break;
+                                    }
+                                    //save current version of workflow
+                                    case 1:{
+                                        facade.saveVersion();
+                                        break;
+                                    }
+                                    //display current + saved versions of workflow
+                                    case 2:{
+                                        int topVersions = facade.getVersion();
+                                        if(topVersions==0){
+                                            cout<<"There are no currently saved versions of workflow\n";
+                                        }else{
+                                            cout<<"====  CURRENTLY SAVED VERSIONS  ====\n";
+                                            for(int i=0; i<=topVersions; i++){
+                                                cout<<"V. "<<i<<"\n";
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    //return to previous version of workflow
+                                    case 3:{
+                                        int* prevVersion = new int(facade.getVersion()-1);
+                                        facade.regressVersion(prevVersion);
+                                        break;
+                                    }
+                                    default:{
+                                        cout<<"\033[91m"<<"Invalid option provided.\n";
+                                        cout<<"Please ensure you choose 0-3\n\033[0m";
+                                    }
+                                }while(optionChosen!=0);
+                            }
+                            break;
+                        }
+                        //view progrss
+                        case 5:{
+                            cout << facade.getProgress();
+                            break;
+                        }
+                        //start workflow
+                        case 6:{
+                            facade.StartWorkFlow();
+                            break;
+                        }
+                        case 0:{
+                            cin.get();
+                            break;
+                        }
                     }
-                    //view progrss
-                    case 5:{
-                        cout << facade.getProgress();
-                        break;
-                    }
-                    case 0:{
-                        
-                        cin.get();
-                        break;
-                    }
-                }
+                }while(managaeChoice!=0);
                 break;
             }
             //CRestaurant
@@ -482,117 +516,517 @@ int main(){
                     setupRestaurantScenario(facade);
                     restSetup = true;
                 }
-                MenuWorkflowMang();
-
+                
                 int managaeChoice;
-                managaeChoice =readInt();
 
-                switch(managaeChoice){
-                    case 1:{
-                        clearConsole();
-                        vector<Team*> teams = facade.getTeams();
-                        if(teams.empty()){
-                            cout<<"No teams found.\n";
-                            break;
-                        }
-                        vector<Team*> teams = facade.getTeams();
-                        if (teams.empty()){
-                            cout << "No teams found.\n";
-                            break;
-                        }
-                        cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
-                        for (size_t i = 0; i < teams.size(); i++){
-                            cout << i + 1 << ". " << teams[i]->getName() << "\n";
-                        }
-                        cout<<"\n";
-
-                        cout << "\033[34m| 1. View team members   | 2. assign work  | 5. | 0. <-- back | \033[0m\n\n";
-                        cout<< "choice - ";
-                        int optionChosen;
-                        optionChosen = readInt();
-                    //idk if this works properly - rei
-                        //TeamsViewMenu(optionChosen, teams&, facade&);
-                        break;
-                    }
-                    case 2:{
-                        getWorkflows(facade);
-                        break;
-                    }
-                    //view available work
-                    case 3:{
+                do{
+                    MenuWorkflowMang();
                     
-                       /*for (workflows that are not assigned){
-                            getWorkflows(facade);
-                        }
-                        */ 
-                        displayWorkItems(facade);
-                        break;
-                    }
-                    //view history
-                    case 4:{
-                        MenuHistoryWorkflow(facade);
-                        int optionChosen;
-                        optionChosen = readInt();
-                        switch(optionChosen){
-                            do{//loop for workflow management screen
-                                case 0:{
-                                    cout<<"Return to regular workflow screen\n";
-                                    break;
-                                }
-                                case 1:{
-                                    facade.saveVersion();
-                                    break;
-                                }
-                                case 2:{
-                                    int topVersions = facade.getVersion();
-                                    if(topVersions==0){
-                                        cout<<"There are no currently saved versions of workflow\n";
-                                    }else{
-                                        cout<<"====  CURRENTLY SAVED VERSIONS  ====\n";
-                                        for(int i=0; i<=topVersions; i++){
-                                            cout<<"V. "<<i<<"\n";
-                                        }
-                                    }
-                                    break;
-                                }
-                                case 3:{
-                                    int* prevVersion = new int(facade.getVersion()-1);
-                                    facade.regressVersion(prevVersion);
-                                    break;
-                                }
-                                default:{
-                                    cout<<"\033[91m"<<"Invalid option provided.\n";
-                                    cout<<"Please ensure you choose 0-3\n\033[0m";
-                                }
-                            }while(optionChosen!=0);
-                        }
-                        break;
-                    }
-                    //view progrss
-                    case 5:{
-                        cout << facade.getProgress();
-                        break;
-                    }
-                    case 0:{
-                        
-                        cin.get();
-                        break;
-                    }
-                }
+                    managaeChoice =readInt();
 
+                    switch(managaeChoice){
+                        case 1:{
+                            clearConsole();
+                            vector<Team*> teams = facade.getTeams();
+                            if(teams.empty()){
+                                cout<<"No teams found.\n";
+                                break;
+                            }
+                            vector<Team*> teams = facade.getTeams();
+                            if (teams.empty()){
+                                cout << "No teams found.\n";
+                                break;
+                            }
+                            cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
+                            for (size_t i = 0; i < teams.size(); i++){
+                                cout << i + 1 << ". " << teams[i]->getName() << "\n";
+                            }
+                            cout<<"\n";
+
+                            cout << "\033[34m| 1. View team members   | 2. assign work  | 0. <-- back | \033[0m\n\n";
+                            cout<< "choice - ";
+                            int optionChosen;
+                            optionChosen = readInt();
+                        //idk if this works properly - rei
+                            TeamsViewMenu(optionChosen, teams, facade);
+                            break;
+                        }
+                        case 2:{
+                            if(facade.getParticipants().size()==0||facade.getWorkItems().size()==0){
+                                cout<<"\033[91m"<<"There are no workers or work items assigned to the workflow.\n\033[0m";
+                                break;
+                            }
+                            string workerName;
+                            cout<<"Enter name of participant to be assigned EXACTLY: ";
+                            cin>>workerName;
+                            vector<Participant*> workers = facade.getParticipants();
+                            int workerFoundAt = -1;
+                            for(int i=0; i<workers.size(); i++){
+                                if(workers.at(i)->getName()==workerName){
+                                    workerFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(workerFoundAt==-1){
+                                cout<<"\033[93m"<<workerName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                            }
+                            string workitemName;
+                            cout<<"\nEnter name of work item to be assigned EXACTLY: ";
+                            cin>>workitemName;
+                            vector<WorkItem*> workitems = facade.getWorkItems();
+                            int itemFoundAt = -1;
+                            for(int i=0; i<workitems.size(); i++){
+                                if(workitems.at(i)->getName()==workitemName){
+                                    itemFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(itemFoundAt==-1){
+                                cout<<"\033[93m"<<workitemName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                                break;
+                            }
+                            cout<<"\n";
+                            facade.AssignParticipant(workers.at(workerFoundAt), workitems.at(itemFoundAt));
+                            cout<<"\033[1;92m"<<workerName<<" has been assigned to "<<workitemName<<"\n\033[0m";
+                            break;
+                        }
+                        //view available work
+                        case 3:{
+                            displayWorkItems(facade);
+                            break;
+                        }
+                        //view history
+                        case 4:{
+                            MenuHistoryWorkflow(facade);
+                            int optionChosen;
+                            optionChosen = readInt();
+                            switch(optionChosen){
+                                do{//loop for workflow management screen
+                                    case 0:{
+                                        cout<<"Return to regular workflow screen\n";
+                                        break;
+                                    }
+                                    //save current version of workflow
+                                    case 1:{
+                                        facade.saveVersion();
+                                        break;
+                                    }
+                                    //display current + saved versions of workflow
+                                    case 2:{
+                                        int topVersions = facade.getVersion();
+                                        if(topVersions==0){
+                                            cout<<"There are no currently saved versions of workflow\n";
+                                        }else{
+                                            cout<<"====  CURRENTLY SAVED VERSIONS  ====\n";
+                                            for(int i=0; i<=topVersions; i++){
+                                                cout<<"V. "<<i<<"\n";
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    //return to previous version of workflow
+                                    case 3:{
+                                        int* prevVersion = new int(facade.getVersion()-1);
+                                        facade.regressVersion(prevVersion);
+                                        break;
+                                    }
+                                    default:{
+                                        cout<<"\033[91m"<<"Invalid option provided.\n";
+                                        cout<<"Please ensure you choose 0-3\n\033[0m";
+                                    }
+                                }while(optionChosen!=0);
+                            }
+                            break;
+                        }
+                        //view progrss
+                        case 5:{
+                            cout << facade.getProgress();
+                            break;
+                        }
+                        //start workflow
+                        case 6:{
+                            facade.StartWorkFlow();
+                            break;
+                        }
+                        case 0:{
+                            
+                            cin.get();
+                            break;
+                        }
+                        default:{
+                            cout<<"\033[91m"<<"Invalid choice!\n\033[0m";
+                        }
+                    }
+                }while(managaeChoice!=0);
                 break;
             }
             //Create a new Scenario 
             case 3:{
+                cout<<"\033[94m"<<"-----------------------------------------------\n";
+                cout<<"         CUSTOM WORKFLOW  ⚞^. .^⚟\n";
+                cout<<"-----------------------------------------------\n\033[0m";
+                cout<<"Plese enter a name for your main workflow, i.e. Constructor Bros.: ";
+                string customMainName;
+                cin>>customMainName;
+
+                facade.CreateWorkFlow(customMainName);
+                cout<<"\033[92m\n\n"<<customMainName<<" has been initialised!\n\n";
+
+                int managaeChoice;
+                do{
+                    MenuWorkflowMang();
+                    cout<<"7. Customise Workflow\n";
+
+                    managaeChoice = readInt();
+                    switch(managaeChoice){
+                        case 1:{
+                            clearConsole();
+                            vector<Team*> teams = facade.getTeams();
+                            if(teams.empty()){
+                                cout<<"No teams found.\n";
+                                break;
+                            }
+                            vector<Team*> teams = facade.getTeams();
+                            if (teams.empty()){
+                                cout << "No teams found.\n";
+                                break;
+                            }
+                            cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
+                            for (size_t i = 0; i < teams.size(); i++){
+                                cout << i + 1 << ". " << teams[i]->getName() << "\n";
+                            }
+                            cout<<"\n";
+
+                            cout << "\033[34m| 1. View team members   | 2. assign work  | 0. <-- back | \033[0m\n\n";
+                            cout<< "choice - ";
+                            int optionChosen;
+                            optionChosen = readInt();
+                        //idk if this works properly - rei
+                            TeamsViewMenu(optionChosen, teams, facade);
+                            break;
+                        }
+                        case 2:{
+                            if(facade.getParticipants().empty()||facade.getWorkItems().empty()){
+                                cout<<"\033[91m"<<"There are no workers or work items assigned to the workflow.\n\033[0m";
+                                break;
+                            }
+                            string workerName;
+                            cout<<"Enter name of participant to be assigned EXACTLY: ";
+                            cin>>workerName;
+                            vector<Participant*> workers = facade.getParticipants();
+                            int workerFoundAt = -1;
+                            for(int i=0; i<workers.size(); i++){
+                                if(workers.at(i)->getName()==workerName){
+                                    workerFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(workerFoundAt==-1){
+                                cout<<"\033[93m"<<workerName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                            }
+                            string workitemName;
+                            cout<<"\nEnter name of work item to be assigned EXACTLY: ";
+                            cin>>workitemName;
+                            vector<WorkItem*> workitems = facade.getWorkItems();
+                            int itemFoundAt = -1;
+                            for(int i=0; i<workitems.size(); i++){
+                                if(workitems.at(i)->getName()==workitemName){
+                                    itemFoundAt = i;
+                                    break;
+                                }
+                            }
+                            if(itemFoundAt==-1){
+                                cout<<"\033[93m"<<workitemName<<"\033[0m "<<"\033[91m"<<"could not be found.\n\033[0m";
+                                break;
+                            }
+                            cout<<"\n";
+                            facade.AssignParticipant(workers.at(workerFoundAt), workitems.at(itemFoundAt));
+                            cout<<"\033[1;92m"<<workerName<<" has been assigned to "<<workitemName<<"\n\033[0m";
+                            break;
+                        }
+                        case 3:{
+                            displayWorkItems(facade);
+                            break;
+                        }
+                        case 4:{
+                            MenuHistoryWorkflow(facade);
+                            int optionChosen;
+                            optionChosen = readInt();
+                            switch(optionChosen){
+                                do{//loop for workflow management screen
+                                    case 0:{
+                                        cout<<"Return to regular workflow screen\n";
+                                        break;
+                                    }
+                                    //save current version of workflow
+                                    case 1:{
+                                        facade.saveVersion();
+                                        break;
+                                    }
+                                    //display current + saved versions of workflow
+                                    case 2:{
+                                        int topVersions = facade.getVersion();
+                                        if(topVersions==0){
+                                            cout<<"There are no currently saved versions of workflow\n";
+                                        }else{
+                                            cout<<"====  CURRENTLY SAVED VERSIONS  ====\n";
+                                            for(int i=0; i<=topVersions; i++){
+                                                cout<<"V. "<<i<<"\n";
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    //return to previous version of workflow
+                                    case 3:{
+                                        int* prevVersion = new int(facade.getVersion()-1);
+                                        facade.regressVersion(prevVersion);
+                                        break;
+                                    }
+                                    default:{
+                                        cout<<"\033[91m"<<"Invalid option provided.\n";
+                                        cout<<"Please ensure you choose 0-3\n\033[0m";
+                                    }
+                                }while(optionChosen!=0);
+                            }
+                            break;
+                        }
+                        case 5:{
+                            cout << facade.getProgress();
+                            break;
+                        }
+                        //start workflow
+                        case 6:{
+                            facade.StartWorkFlow();
+                            break;
+                        }
+                        case 7:{
+                            vector<WorkFlow*> currentflows;
+                            vector<Member*> currentParticipants;
+                            vector<Team*> currentTeams;
+                            vector<WorkItem*> currentWorkItems;
+                            int workflowCustomChoice;
+                            do{
+                                cout<<"1. Add Workflow                  | 2. Add Member/Team to Main Workflow     | 3. Add Work Item to Workflow\n";
+                                cout<<"4. Assign Member/Team to Team    | 5. Assign Work Item to Member           | 6. Create Member\n";
+                                cout<<"7. Create Team                   | 8. Create Work Item                     | 0. Finish Customisation\n";
+                                switch(workflowCustomChoice){
+                                    case 1:{
+                                        string workflowName;
+                                        cout<<"Enter name for workflow: ";
+                                        cin>>workflowName;
+                                        if(workflowName==""){
+                                            cout<<"\033[91m"<<"Invalid name entered!"<<"\n\033[0m";
+                                            break;
+                                        }
+                                        WorkFlow* addWorkflow = new WorkFlow(workflowName);
+                                        currentflows.push_back(addWorkflow);
+                                        break;
+                                    }
+                                    case 2:{
+                                        if(currentParticipants.empty()){
+                                            cout<<"\033[91m"<<"There are no participants to assign.\033[0m\n";
+                                            break;
+                                        }
+                                        cout<<"Enter name of participant to be assigned EXACTLY: ";
+                                        string workerName;
+                                        cin>>workerName;
+                                        int workerfoundAt = -1;
+                                        for(size_t i=0; i<currentParticipants.size(); i++){
+                                            if(currentParticipants.at(i)->getName()==workerName){
+                                                workerfoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(workerfoundAt==-1){
+                                            cout<<workerName<<" cannot be found.\n";
+                                            break;
+                                        }
+                                        facade.AddParticipant(currentParticipants.at(workerfoundAt));
+                                        break;
+                                    }
+                                    case 3:{
+                                        if(currentflows.empty()||currentWorkItems.empty()){
+                                            cout<<"\033[91m"<<"There are either no participants or sub-workflows to assign.\033[0m\n";
+                                        }
+                                        cout<<"Enter name of work item to be assigned EXACTLY: ";
+                                        string workitemName;
+                                        cin>>workitemName;
+                                        int workitemFoundAt = -1;
+                                        for(size_t i=0; i<currentWorkItems.size(); i++){
+                                            if(currentWorkItems.at(i)->getName()==workitemName){
+                                                workitemFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(workitemFoundAt==-1){
+                                            cout<<"\033[91m"<<workitemName<<" cannot be found.\n\033[0m";
+                                            break;
+                                        }
+                                        cout<<"\nEnter name of sub-workflow to be assigned to EXACTLY: ";
+                                        string workflowName;
+                                        cin>>workflowName;
+                                        int workflowFoundAt = -1;
+                                        for(size_t i=0; i<currentflows.size(); i++){
+                                            if(currentflows.at(i)->getName()==workflowName){
+                                                workflowFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(workflowFoundAt==-1){
+                                            cout<<workflowName<<" cannot be found.\n";
+                                        }
+                                        cout<<"Adding "<<workitemName<<" to sub-workflow "<<workflowName<<".\n";
+                                        currentflows.at(workflowFoundAt)->addChild(currentWorkItems.at(workitemFoundAt));
+                                        break;
+                                    }
+                                    case 4:{
+                                        if(currentParticipants.empty()||currentTeams.empty()){
+                                            cout<<"\033[91m"<<"There are no participants to be added.\n\033[0m";
+                                            break;
+                                        }
+                                        cout<<"Enter name of member/team to be assigned EXACTLY: ";
+                                        string toBeAdd;
+                                        cin>>toBeAdd;
+                                        int toBeAddFoundAt = -1;
+                                        for(size_t i=0; i<currentParticipants.size(); i++){
+                                            if(currentParticipants.at(i)->getName()==toBeAdd){
+                                                toBeAddFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(toBeAddFoundAt==-1){
+                                            cout<<toBeAdd<<" could not be found.\n";
+                                            break;
+                                        }
+                                        cout<<"Enter name of member/team to be assigned to EXACTLY: ";
+                                        string addTo;
+                                        cin>>addTo;
+                                        if(addTo==toBeAdd){
+                                            cout<<"\033[91m"<<"Cannot add "<<addTo<<" to itself.\033[0m\n";
+                                            break;
+                                        }
+                                        int addToFoundAt = -1;
+                                        for(size_t i=0; i<currentTeams.size(); i++){
+                                            if(currentTeams.at(i)->getName()==addTo){
+                                                addToFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(addToFoundAt==-1){
+                                            cout<<addTo<<" cannot be found.\n";
+                                            break;
+                                        }
+                                        currentTeams.at(addToFoundAt)->addMember(currentParticipants.at(toBeAddFoundAt));
+                                        break;
+                                    }
+                                    case 5:{
+                                        if(currentWorkItems.empty()||currentParticipants.empty()){
+                                            cout<<"There are either no members or work items to assign\n";
+                                            break;
+                                        }
+                                        cout<<"Enter name of work item to be assinged EXACTLY: ";
+                                        string workitemName;
+                                        cin>>workitemName;
+                                        int workitemFoundAt = -1;
+                                        for(size_t i=0; i<currentWorkItems.size(); i++){
+                                            if(currentWorkItems.at(i)->getName()==workitemName){
+                                                workitemFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(workitemFoundAt==-1){
+                                            cout<<"\033[91m"<<workitemName<<" cannot be found.\n\033[0m";
+                                            break;
+                                        }
+                                        cout<<"Enter name of member to be assigned to EXACTLY: ";
+                                        string memberName;
+                                        cin>>memberName;
+                                        int memberFoundAt = -1;
+                                        for(size_t i=0; i<currentParticipants.size(); i++){
+                                            if(currentParticipants.at(i)->getName()==memberName){
+                                                memberFoundAt = i;
+                                                break;
+                                            }
+                                        }
+                                        if(memberFoundAt==-1){
+                                            cout<<memberName<<" cannot be found.\n";
+                                            break;
+                                        }
+                                        cout<<"Adding "<<currentWorkItems.at(workitemFoundAt)->getName()<<" to member "<<currentParticipants.at(memberFoundAt)<<".\n";
+                                        currentParticipants.at(memberFoundAt)->assignWork(currentWorkItems.at(workitemFoundAt));
+                                        break;
+                                    }
+                                    case 6:{
+                                        cout<<"Enter name of new member: ";
+                                        string memberName;
+                                        cin>>memberName;
+                                        Member* newMember = new Member(memberName);
+                                        currentParticipants.push_back(newMember);
+                                        cout<<"\033[94m"<<memberName<<" has been created.\n\033[0m";
+                                        break;
+                                    }
+                                    case 7:{
+                                        cout<<"Enter name of new team: ";
+                                        string teamName;
+                                        cin>>teamName;
+                                        Team* newTeam = new Team(teamName);
+                                        currentTeams.push_back(newTeam);
+                                        cout<<"\033[94m"<<teamName<<" has been created.\n\033[0m";
+                                        break;
+                                    }
+                                    case 8:{
+                                        cout<<"Enter name of new work item: ";
+                                        string itemName;
+                                        cin>>itemName;
+                                        WorkItem* newWorkitem = new WorkItem(itemName);
+                                        currentWorkItems.push_back(newWorkitem);
+                                        cout<<"\033[94m"<<itemName<<" has been created.\n\033[0m";
+                                        break;
+                                    }
+                                    case 0:{
+                                        cout<<"Finishing up customisation...\n";
+                                        cout<<"Adding Teams...\n";
+                                        for(size_t i=0; i<currentTeams.size(); i++){
+                                            facade.AddParticipant(currentTeams.at(i));
+                                        }
+                                        cout<<"Adding Membes...\n";
+                                        for(size_t i=0; i<currentParticipants.size(); i++){
+                                            facade.AddParticipant(currentParticipants.at(i));
+                                        }
+                                        cout<<"Adding Work Items...\n";
+                                        for(size_t i=0; i<currentWorkItems.size(); i++){
+                                            facade.AddWorkItem(currentWorkItems.at(i));
+                                        }
+                                        cout<<"Customisation complete! Returning to workflow menu.\n";
+                                        cin.get();
+                                        break;
+                                    }
+                                    default:{
+                                        cout<<"\033[91m"<<"Invalid choice!\n\033[0m";
+                                    }
+                                }
+                            }while(workflowCustomChoice!=0);
+                            break;
+                        }
+                        case 0:{
+                            cin.get();
+                            break;
+                        }
+                        default:{
+                            cout<<"\033[91m"<<"Invalid choice!\n\033[0m";
+                        }
+                    }
+                }while(managaeChoice!=0);
                 break;
             }
             case 0:{
-                cout << "\033[1;32m\nFinished Managing workflows. Yippeee! \033[0m\n\n";
+                cout << "\033[1;31m"<<"=====  QUITING TIVIDY  =====\n\033[0m";
+                cout << "\033[1;32m\nFinished Managing workflows. Yippeee! ദ്ദി˙∇˙)ว \033[0m\n\n";
                 clearConsole();
                 break;
             }
             default: {
-                cout << "Invalid choice!\n";
+                cout<<"\033[91m" << "Invalid choice!\n\033[0m";
                 break;
             }
         }
@@ -600,7 +1034,7 @@ int main(){
             cout << "\nPress ENTER to return to the main menu...";
             cin.get();
         }
-    }while (ScenarioChoice != 0);
+    }while(ScenarioChoice != 0);
 
 
     return 0;
