@@ -46,4 +46,5 @@ public:
 
     /** @brief Calls submitWork() on every member. */
     void submitWork() override;
+    const std::map<std::string, Participant*>& getMembers() const { return teamMembers; }
 };

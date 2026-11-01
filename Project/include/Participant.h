@@ -87,6 +87,8 @@ class Participant{
     
     /** @brief Returns a reference to the participant's name. */
     const std::string& name() const {return part_name;};
+    const std::map<std::string, WorkItem*>& getAssignedWork() const{return assignedWork;}//allow showing workitems assigned to participants
+    
     
 
 };
