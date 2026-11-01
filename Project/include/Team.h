@@ -20,4 +20,5 @@ public:
     void doWork() override;
 
     void submitWork() override;
+    const std::map<std::string, Participant*>& getMembers() const { return teamMembers; }
 };
