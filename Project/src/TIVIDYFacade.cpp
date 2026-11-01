@@ -21,31 +21,15 @@
 // CONSTRUCTOR AND DESTRUCTOR
 // ==========================================
 
-TIVIDYFacade::TIVIDYFacade()
-    : workflow(nullptr),
-      history(new VersionHistory()),
-      handlerChain(nullptr),
-      observer(nullptr),
-      currentVersion(0)
-{
-}
+TIVIDYFacade::TIVIDYFacade(): workflow(nullptr),history(new VersionHistory()),handlerChain(nullptr),observer(nullptr),currentVersion(0)
+{}
 
-TIVIDYFacade::~TIVIDYFacade()
-{
+TIVIDYFacade::~TIVIDYFacade(){
     delete workflow;
     delete history;
-
-    // Participants, handlerChain and observer
-    // are not deleted because ownership has not
-    // been transferred to the Facade.
 }
 
-// ==========================================
-// WORKFLOW CREATION AND MANAGEMENT
-// ==========================================
-
-void TIVIDYFacade::CreateWorkFlow(const std::string& name)
-{
+void TIVIDYFacade::CreateWorkFlow(const std::string& name){
     if (name.empty())
     {
         std::cout << "Workflow name cannot be empty.\n";
@@ -60,10 +44,8 @@ void TIVIDYFacade::CreateWorkFlow(const std::string& name)
     currentVersion = 0;
 }
 
-void TIVIDYFacade::StartWorkFlow()
-{
-    if (!workflow)
-    {
+void TIVIDYFacade::StartWorkFlow(){
+    if (!workflow){
         std::cout << "No workflow has been created.\n";
         return;
     }
@@ -74,8 +56,7 @@ void TIVIDYFacade::StartWorkFlow()
     workflow->accept(&beginWork);
 }
 
-void TIVIDYFacade::ReviewWorkFlow()
-{
+void TIVIDYFacade::ReviewWorkFlow(){
     if (!workflow)
     {
         std::cout << "No workflow has been created.\n";
@@ -88,23 +69,17 @@ void TIVIDYFacade::ReviewWorkFlow()
     workflow->accept(&review);
 }
 
-void TIVIDYFacade::RejectWorkFlow()
-{
+void TIVIDYFacade::RejectWorkFlow(){
     if (!workflow)
     {
         std::cout << "No workflow has been created.\n";
         return;
     }
 
-    // Rejection needs a dedicated rejection operation
-    // or visitor. It is not implemented by the supplied
-    // Visitor interfaces yet.
-
     std::cout << "Workflow rejection is not implemented yet.\n";
 }
 
-void TIVIDYFacade::CompleteWorkFlow()
-{
+void TIVIDYFacade::CompleteWorkFlow(){
     if (!workflow)
     {
         std::cout << "No workflow has been created.\n";
@@ -117,8 +92,7 @@ void TIVIDYFacade::CompleteWorkFlow()
     workflow->accept(&finish);
 }
 
-void TIVIDYFacade::CancelWorkFlow()
-{
+void TIVIDYFacade::CancelWorkFlow(){
     if (!workflow)
     {
         std::cout << "No workflow has been created.\n";
@@ -130,13 +104,7 @@ void TIVIDYFacade::CancelWorkFlow()
     CancelVisitor cancel;
     workflow->accept(&cancel);
 }
-
-// ==========================================
-// INDIVIDUAL WORK ITEM MANAGEMENT
-// ==========================================
-
-void TIVIDYFacade::StartWorkItem(WorkItem* item)
-{
+void TIVIDYFacade::StartWorkItem(WorkItem* item){
     if (!item)
     {
         std::cout << "Invalid WorkItem.\n";
@@ -150,8 +118,7 @@ void TIVIDYFacade::StartWorkItem(WorkItem* item)
     item->accept(&beginWork);
 }
 
-void TIVIDYFacade::ReviewWorkItem(WorkItem* item)
-{
+void TIVIDYFacade::ReviewWorkItem(WorkItem* item){
     if (!item)
     {
         std::cout << "Invalid WorkItem.\n";
@@ -165,8 +132,7 @@ void TIVIDYFacade::ReviewWorkItem(WorkItem* item)
     item->accept(&review);
 }
 
-void TIVIDYFacade::CompleteWorkItem(WorkItem* item)
-{
+void TIVIDYFacade::CompleteWorkItem(WorkItem* item){
     if (!item)
     {
         std::cout << "Invalid WorkItem.\n";
@@ -180,8 +146,7 @@ void TIVIDYFacade::CompleteWorkItem(WorkItem* item)
     item->accept(&finish);
 }
 
-void TIVIDYFacade::CancelWorkItem(WorkItem* item)
-{
+void TIVIDYFacade::CancelWorkItem(WorkItem* item){
     if (!item)
     {
         std::cout << "Invalid WorkItem.\n";
@@ -194,17 +159,10 @@ void TIVIDYFacade::CancelWorkItem(WorkItem* item)
     CancelVisitor cancel;
     item->accept(&cancel);
 }
-
-// ==========================================
-// WORKFLOW INSPECTION
-// ==========================================
-
 WorkFlowComponent* TIVIDYFacade::GetCurrentWorkflow()
 {
     return workflow;
 }
-
-// Recursively collect all nested WorkFlows
 
 void TIVIDYFacade::collectWorkflows(
     WorkFlowComponent* component,
@@ -246,38 +204,29 @@ std::vector<WorkFlow*> TIVIDYFacade::getWorkflows()
 
 // Recursively collect all WorkItems
 
-void TIVIDYFacade::collectWorkItems(
-    WorkFlowComponent* component,
-    std::vector<WorkItem*>& result)
-{
+void TIVIDYFacade::collectWorkItems(WorkFlowComponent* component,std::vector<WorkItem*>& result){
     if (!component)
         return;
 
-    WorkItem* item =
-        dynamic_cast<WorkItem*>(component);
+    WorkItem* item =dynamic_cast<WorkItem*>(component);
 
-    if (item)
-    {
+    if (item){
         result.push_back(item);
     }
 
-    std::vector<WorkFlowComponent*> children =
-        component->getChildren();
+    std::vector<WorkFlowComponent*> children =component->getChildren();
 
-    for (size_t i = 0; i < children.size(); ++i)
-    {
+    for (size_t i = 0; i < children.size(); ++i){
         collectWorkItems(children[i], result);
     }
 }
 
 // Return all WorkItems
 
-std::vector<WorkItem*> TIVIDYFacade::getWorkItems()
-{
+std::vector<WorkItem*> TIVIDYFacade::getWorkItems(){
     std::vector<WorkItem*> result;
 
-    if (workflow)
-    {
+    if (workflow){
         collectWorkItems(workflow, result);
     }
 
@@ -348,28 +297,34 @@ void TIVIDYFacade::AddParticipant(Participant* participant)
               << " added successfully.\n";
 }
 
-std::vector<Participant*> TIVIDYFacade::getParticipants()
-{
+std::vector<Participant*> TIVIDYFacade::getParticipants(){
     return participants;
 }
+std::vector<Participant*> TIVIDYFacade::getTeamMembers(Team* team){
+    std::vector<Participant*> members;
+    if (team == nullptr)
+        return members;
+    const std::map<std::string, Participant*>& teamMembers =
+        team->getMembers();
+    for (const auto& entry : teamMembers){
+        members.push_back(entry.second);
+    }
 
-// Assign participant to WorkItem
+    return members;
+}
+
 
 bool TIVIDYFacade::AssignParticipant(
     Participant* participant,
     WorkItem* item)
 {
-    if (!participant || !item)
-    {
+    if (!participant || !item){
         std::cout << "Invalid Participant or WorkItem.\n";
         return false;
     }
-
-    // Ensure participant belongs to this Facade
     bool registered = false;
 
-    for (size_t i = 0; i < participants.size(); ++i)
-    {
+    for (size_t i = 0; i < participants.size(); ++i){
         if (participants[i] == participant)
         {
             registered = true;
@@ -377,8 +332,7 @@ bool TIVIDYFacade::AssignParticipant(
         }
     }
 
-    if (!registered)
-    {
+    if (!registered){
         std::cout << "Participant is not registered.\n";
         return false;
     }
@@ -397,8 +351,7 @@ bool TIVIDYFacade::AssignParticipant(
         }
     }
 
-    if (!found)
-    {
+    if (!found){
         std::cout << "WorkItem does not belong to this workflow.\n";
         return false;
     }
@@ -412,27 +365,18 @@ bool TIVIDYFacade::AssignParticipant(
     return true;
 }
 
-// ==========================================
-// HANDLER MANAGEMENT
-// ==========================================
-
 void TIVIDYFacade::SetHandlerChain(WorkHandler* handler)
 {
     handlerChain = handler;
 
     // Update all registered participants
-    for (size_t i = 0; i < participants.size(); ++i)
-    {
+    for (size_t i = 0; i < participants.size(); ++i){
         participants[i]->setChain(handlerChain);
     }
 
     std::cout << "Handler chain configured.\n";
 }
-
-// Process a WorkItem through the Handler Chain
-
-bool TIVIDYFacade::ProcessWorkItem(WorkItem* item)
-{
+bool TIVIDYFacade::ProcessWorkItem(WorkItem* item){
     if (!item)
     {
         std::cout << "Invalid WorkItem.\n";
@@ -448,19 +392,11 @@ bool TIVIDYFacade::ProcessWorkItem(WorkItem* item)
     return handlerChain->handleRequest(item);
 }
 
-// ==========================================
-// VERSION MANAGEMENT
-// ==========================================
-
-int TIVIDYFacade::getVersion()
-{
+int TIVIDYFacade::getVersion(){
     return currentVersion;
 }
 
-// Save current workflow state
-
-void TIVIDYFacade::saveVersion()
-{
+void TIVIDYFacade::saveVersion(){
     if (!workflow)
     {
         std::cout << "No workflow to save.\n";
@@ -477,18 +413,13 @@ void TIVIDYFacade::saveVersion()
               << " saved successfully.\n";
 }
 
-// Restore previous workflow state
-
-void TIVIDYFacade::regressVersion(int* version)
-{
-    if (!workflow)
-    {
+void TIVIDYFacade::regressVersion(int* version){
+    if (!workflow){
         std::cout << "No workflow to restore.\n";
         return;
     }
 
-    if (!version)
-    {
+    if (!version){
         std::cout << "Invalid version number.\n";
         return;
     }
@@ -516,4 +447,16 @@ bool TIVIDYFacade::AddWorkItem(WorkItem* item)
         return false;
 
     return workflow->addChild(item);
+}
+std::vector<Team*> TIVIDYFacade::getTeams(){
+    std::vector<Team*> teams;
+    for (Participant* participant : participants){
+        Team* team = dynamic_cast<Team*>(participant);
+
+        if (team != nullptr){
+            teams.push_back(team);
+        }
+    }
+
+    return teams;
 }

@@ -13,7 +13,9 @@ class Team: public Participant{
 
     Team(std::string name):Participant(name){};
 
-
+    const std::map<std::string, Participant*>& getMembers() const {
+        return teamMembers;
+    }
     void addMember(Participant* p);
 
     void removeMember(const std::string& name);

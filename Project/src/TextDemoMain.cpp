@@ -4,6 +4,7 @@
 #include "WorkItem.h"
 #include "Participant.h"
 #include "Member.h"
+#include "Team.h"
 
 using namespace std;
 
@@ -88,6 +89,13 @@ void getParticipants(TIVIDYFacade& facade)
         cout << "\n";
     }
 }
+void getWorkflows(TIVIDYFacade& facade){
+    vector<WorkFlow*> workflows = facade.getWorkflows();
+    if (workflows.empty()){
+        cout << "No workflows \n";
+        return;
+    }
+}
 
 // Populate the Animation and restaurant scenario choices: 
 void setupAnimationScenario(TIVIDYFacade& facade)
@@ -95,45 +103,91 @@ void setupAnimationScenario(TIVIDYFacade& facade)
     // Create the main workflow
     facade.CreateWorkFlow("Animation Production");
 
-    WorkFlow* animation =
-        dynamic_cast<WorkFlow*>(facade.GetCurrentWorkflow());
+    WorkFlow* animation = dynamic_cast<WorkFlow*>(facade.GetCurrentWorkflow());
 
     if (animation == nullptr)
         return;
 
-    // Create sub-workflows
+
     WorkFlow* preProduction = new WorkFlow("Pre-Production");
     WorkFlow* assetProduction = new WorkFlow("Asset Production");
     WorkFlow* postProduction = new WorkFlow("Post-Production");
 
-    // Pre-Production tasks
-    preProduction->addChild(new WorkItem("Concept Design"));
-    preProduction->addChild(new WorkItem("Storyboarding"));
+    WorkItem* ConceptD = new WorkItem("Concept Design");
+    preProduction->addChild(ConceptD);
 
-    // Asset Production tasks
-    assetProduction->addChild(new WorkItem("Modelling"));
-    assetProduction->addChild(new WorkItem("Texturing"));
-    assetProduction->addChild(new WorkItem("Rigging"));
+    WorkItem* Storyboarding = new WorkItem("Storyboarding");
+    preProduction->addChild(Storyboarding);
 
-    // Post-Production tasks
-    postProduction->addChild(new WorkItem("Animation Rendering"));
-    postProduction->addChild(new WorkItem("Quality Check"));
+    WorkItem* Modelling = new WorkItem("Modelling");
+    assetProduction->addChild(Modelling);
 
-    // Add sub-workflows to main workflow
+    WorkItem* Texturing = new WorkItem("Texturing");
+    assetProduction->addChild(Texturing);
+
+    WorkItem* Rigging = new WorkItem("Rigging");
+    assetProduction->addChild(Rigging);
+
+    WorkItem* Animation = new WorkItem("Animation Rendering");
+    postProduction->addChild(Animation);
+
+    WorkItem* Quality = new WorkItem("Quality Check");
+    postProduction->addChild(Quality);
+
     animation->addChild(preProduction);
     animation->addChild(assetProduction);
     animation->addChild(postProduction);
 
-    Participant* p1 = new Member("Dorris");
+// Create participants
+Participant* p1 = new Member("Dorris");
+Participant* p2 = new Member("DavidMan");
 
-    AddParticipant(Participant* participant);
-    std::vector<Participant*> getParticipants();
-    bool AssignParticipant(Participant* participant, WorkItem* item);
+// Create teams
+Team* productionTeam = new Team("Production Team");
+Team* assetTeam = new Team("Asset Production Team");
+Team* designTeam = new Team("Design Team");
+
+// Add participants to subteams
+designTeam->addMember(p1);
+assetTeam->addMember(p2);
+
+// Add subteams to the main team
+productionTeam->addMember(designTeam);
+productionTeam->addMember(assetTeam);
+
+// Register the main team
+facade.AddParticipant(productionTeam);
+
+// Assign work
+facade.AssignParticipant(p1, Modelling);
+facade.AssignParticipant(p2, Texturing);
+}
+
+
+void MenuWorkflowMang(){
+    cout << "\033[1;36m\n        --- MANAGE --       \n\n\033[0m";
+
+    cout << "1. View teams      | 3. View available work  | 5. View progress \n";
+    cout << "2. View workflows  | 4. View history         | 0. <-- back      \n\n";
+
+    cout<< "choice - ";
+}
+void MenuHistoryWorkflow(TIVIDYFacade& facade){
+    cout << "\033[1;36m\n ========== WORKFLOW HISTORY ========== \n\n\033[0m";
+
+    cout << "Current version: " + facade.getVersion();
+
+    cout << "\n\n1. Save current version\n";
+    cout << "2. View saved versions\n";
+    cout << "3. Restore a previous version\n";
+    cout << "0. <-- Back\n\n";
+
+    cout<< "choice - ";
 }
 
 int main(){
     TIVIDYFacade facade;
-
+    bool animationSetup = false;
     int ScenarioChoice;
     do{
         clearConsole();
@@ -150,7 +204,7 @@ int main(){
 
         
         ScenarioChoice = readInt();
-        bool animationSetup = false;
+
 
         switch(ScenarioChoice){
             //AnimationStudio
@@ -162,16 +216,108 @@ int main(){
                 cout << "      ANIMATION STUDIO WORKFLOW MANAGER  ＼(^o^)／" << "\n";
                 cout << "-----------------------------------------------" << "\n\n";
 
-
-
-
                 if (!animationSetup){
                     setupAnimationScenario(facade);
                     animationSetup = true;
                 }
 
+                MenuWorkflowMang();
+
+                int managaeChoice;
+                managaeChoice =readInt();
+
+                switch(managaeChoice){ 
+                    //view Teams
+                    case 1:{
+                        
+                        clearConsole();
+
+                        vector<Team*> teams = facade.getTeams();
+                        if (teams.empty()){
+                            cout << "No teams found.\n";
+                            break;
+                        }
+                        cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
+                        for (size_t i = 0; i < teams.size(); i++){
+                            cout << i + 1 << ". " << teams[i]->getName() << "\n";
+                        }
+                        cout<<"\n";
+
+                        cout << "\033[34m| 1. View team members   | 2. assign work  | 5. | 0. <-- back | \033[0m\n\n";
+                        cout<< "choice - ";
+                        int optionChosen;
+                        optionChosen = readInt();
+
+                        switch(optionChosen){
+                            //view Team members
+                            case 1:{
+                                cout << "Enter the number of the team you would like to view: ";
+                                int choice = readInt();
+
+                                if (choice >= 1 && choice <= static_cast<int>(teams.size())){
+                                    Team* selectedTeam = teams[choice - 1];
+                                    cout << "\n--- " << selectedTeam->getName() << " ---\n";
+                                    vector<Participant*> members =
+                                        facade.getTeamMembers(selectedTeam);
+
+                                    if (members.empty()){
+                                        cout << "This team has no members.\n";
+                                    }
+                                    else{
+                                        for (size_t i = 0; i < members.size(); i++){
+                                            cout << i + 1 << ". "<< members[i]->getName() << "\n";
+                                        }
+                                    }
+                                }
+                                else{
+                                    cout << "Invalid choice.\n";
+                                }
+                                break;
+                            }
+
+                            //assign work
+                            case 2:{
+                                cout <<"Enter the Team you would like to assign work to";
+                                string question;
+                                getline(cin, question);
+
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    //view Workflows
+                    case 2:{
+                        
+                        getWorkflows(facade);
+                        break;
+                    }
+                    //view available work
+                    case 3:{
+                    
+                       /*for (workflows that are not assigned){
+                            getWorkflows(facade);
+                        }
+                        */ 
+                        break;
+                    }
+                    //view history
+                    case 4:{
+                        
+                    }
+                    //view progrss
+                    case 5:{
+                        cout << facade.getProgress();
+                    }
+                    case 0:{
+                        
+                        cin.get();
+                        break;
+                    }
+                }
+
                 
-                getParticipants(facade);
+                
 
                 break;
             }

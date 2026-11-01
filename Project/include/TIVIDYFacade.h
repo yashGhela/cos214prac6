@@ -12,6 +12,7 @@ class Participant;
 class VersionHistory;
 class WorkHandler;
 class WorkFlowObserver;
+#include "Team.h";
 
 class TIVIDYFacade
 {
@@ -40,12 +41,15 @@ public:
     std::vector<WorkFlow*> getWorkflows();
     std::vector<WorkItem*> getWorkItems();
     int getProgress();
+    
 
     // Participant management
     void AddParticipant(Participant* participant);
     std::vector<Participant*> getParticipants();
     bool AssignParticipant(Participant* participant, WorkItem* item);
-
+    std::vector<Participant*> getTeamMembers(Team* team);
+    std::vector<Team*> getTeams();
+    
     // Handler management
     void SetHandlerChain(WorkHandler* handler);
     bool ProcessWorkItem(WorkItem* item);
