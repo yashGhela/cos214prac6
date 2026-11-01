@@ -15,8 +15,6 @@ private:
     void setState(std::map<std::string, WorkItemState*> state);
     std::map<std::string, WorkItemState*> state;
 
-
-
 };
 
 #endif
