@@ -24,7 +24,13 @@ public:
 
     ActionRegistry getAction() const { return action; }
     std::string getName() const { return name; };
-    void addReactor(WorkFlowObserver *w) { reactors.push_back(w); }
+    void addReactor(WorkFlowObserver *w) 
+    {
+        if (w != nullptr && std::find(reactors.begin(), reactors.end(), w) == reactors.end())
+        {
+            reactors.push_back(w);
+        }
+    }
     void removeReactor(WorkFlowObserver *w)
     {
         reactors.erase(std::remove(reactors.begin(), reactors.end(), w), reactors.end());
