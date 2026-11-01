@@ -5,6 +5,8 @@
 #include "Participant.h"
 #include "Member.h"
 #include "Team.h"
+#include "Roles.h"
+#include "RolesApprover.h"
 
 using namespace std;
 
@@ -163,6 +165,62 @@ facade.AssignParticipant(p1, Modelling);
 facade.AssignParticipant(p2, Texturing);
 }
 
+void setupRestaurantScenario(TIVIDYFacade& facade){
+    facade.CreateWorkFlow("Hungry Cat Restaurant");
+    Workflow* food = dynamic_cast<Workflow*>(facade.GetCurrentWorkflow());
+    if(food==nullptr){
+        cout<<"Oops, something went wrong with setting up the scenario!"<<endl;
+        return;
+    }
+    Workflow* serversFront = new Workflow("Front Orders");
+    WorkItem* greetCustomer = new WorkItem("Greet Customers");
+    WorkItem* giveDrinks = new WorkItem("Serving Drinks");
+    WorkItem* smallOrder = new WorkItem("Small Chips");
+    WorkItem* largeOrder = new WorkItem("Basted Duck");
+    WorkItem* serveFood = new WorkItem("Serving Orders");
+    serversFront->addChild(greetCustomer);
+    serversFront->addChild(giveDrinks);
+    serversFront->addChild(smallOrder);
+    serversFront->addChild(largeOrder);
+    serversFront->addChild(serveFood);
+    food->addChild(serversFront);
+
+    Workflow* cooksBack = new Workflow("Back Kitchen");
+    WorkItem* washHands = new WorkItem("Washing Hands");
+    WorkItem* cleanDishes = new WorkItem("Cleaning Dirty Dishes");
+    WorkItem* prepFood = new WorkItem("Preparing Ingredients");
+    WorkItem* getOrders = new WorkItem("Receiving Orders from Servers");
+    WorkItem* cookOrders = new WorkItem("Cooking Pending Orders");
+    cooksBack->addChild(washHands);
+    cooksBack->addChild(cleanDishes);
+    cooksBack->addChild(prepFood);
+    cooksBack->addChild(getOrders);
+    cooksBack->addChild(cookOrders);
+    food->addChild(cooksBack);
+
+    Participant* s1 = new Member("Mark");
+    Participant* c1 = new Member("Chef Crazy Dave");
+    Roles* a1 = new RolesApprover(c1);
+    Participant* c2 = new Member("Rachel");
+
+    Team* serverTeam = new Team("Server Team");
+    Team* cooksTeam = new Team("Cook Team");
+    Team* completeStaff = new Team("Restaurant Staff");
+
+    serverTeam->addMember(s1);
+    cooksTeam->addMember(c2);
+    cooksTeam->addMember(a1);
+    completeStaff->addMember(serverTeam);
+    completeStaff->addMember(cooksTeam);
+
+    facade.AddParticipant(completeStaff);
+    facade.AddParticipant(s1, greetCustomer);
+    facade.AddParticipant(s1, getOrders);
+    facade.AddParticipant(c2, cleanDishes);
+    facade.AddParticipant(c2, prepFood);
+    facade.AddParticipant(a1, cookOrders);
+}
+
 
 void MenuWorkflowMang(){
     cout << "\033[1;36m\n        --- MANAGE --       \n\n\033[0m";
@@ -184,10 +242,45 @@ void MenuHistoryWorkflow(TIVIDYFacade& facade){
 
     cout<< "choice - ";
 }
+//can maybe reuse below func for the team input stuff - remove if not want :3 - Rei
+void TeamsViewMenu(int optionChosen, vector<Teams*>& teams, TIVIDYFacade& facade){
+    switch(optionChosen){
+        //view Team members
+        case 1:{
+            cout << "Enter the number of the team you would like to view: ";
+            int choice = readInt();
+
+            if (choice >= 1 && choice <= static_cast<int>(teams.size())){
+                Team* selectedTeam = teams[choice - 1];
+                cout << "\n--- " << selectedTeam->getName() << " ---\n";
+                vector<Participant*> members = facade.getTeamMembers(selectedTeam);
+
+                if (members.empty()){
+                    cout << "This team has "<<"\033[91m"<<"no members"<<"\033[0m"<<".\n";
+                }else{
+                    for (size_t i = 0; i < members.size(); i++){
+                        cout << i + 1 << ". "<< members[i]->getName() << "\n";
+                    }
+                }
+            }else{
+                cout << "\033[91m"<<"Invalid choice"<<"\033[0m"<<".\n";
+            }
+            break;
+        }
+        //assign work
+        case 2:{
+            cout <<"Enter the Team you would like to"<<"\033[96m "<<" assign work"<<"\033[0m"<<" to";
+            string question;
+            getline(cin, question);
+            break;
+        }
+    }
+}
 
 int main(){
     TIVIDYFacade facade;
     bool animationSetup = false;
+    bool restSetup = false;
     int ScenarioChoice;
     do{
         clearConsole();
@@ -212,9 +305,9 @@ int main(){
             case 1:{
                 clearConsole();
 
-                cout << "-----------------------------------------------" << "\n";
+                cout<< "\033[34m"<< "-----------------------------------------------" << "\n";
                 cout << "      ANIMATION STUDIO WORKFLOW MANAGER  ＼(^o^)／" << "\n";
-                cout << "-----------------------------------------------" << "\n\n";
+                cout << "-----------------------------------------------"<<"\033[0m" << "\n\n";
 
                 if (!animationSetup){
                     setupAnimationScenario(facade);
@@ -288,7 +381,6 @@ int main(){
                     }
                     //view Workflows
                     case 2:{
-                        
                         getWorkflows(facade);
                         break;
                     }
@@ -303,11 +395,12 @@ int main(){
                     }
                     //view history
                     case 4:{
-                        
+                        break;
                     }
                     //view progrss
                     case 5:{
                         cout << facade.getProgress();
+                        break;
                     }
                     case 0:{
                         
@@ -323,9 +416,75 @@ int main(){
             }
             //CRestaurant
             case 2:{
-            cout << "-----------------------------------------------" << "\n";
-            cout << "RESTAURANT WORKFLOW MANAGER  ᕕ( ᐛ )ᕗ" << "\n";
-            cout << "-----------------------------------------------" << "\n\n";
+                cout << "\033[96m-----------------------------------------------" << "\n";
+                cout << "      RESTAURANT WORKFLOW MANAGER  ᕕ( ᐛ )ᕗ    " << "\n";
+                cout << "-----------------------------------------------\033[0m" << "\n\n";
+                if(!restSetup){
+                    setupRestaurantScenario(facade);
+                    restSetup = true;
+                }
+                MenuWorkflowMang();
+
+                int managaeChoice;
+                managaeChoice =readInt();
+
+                switch(managaeChoice){
+                    case 1:{
+                        clearConsole();
+                        vector<Teams*> teams = facade.getTeams();
+                        if(teams.empty()){
+                            cout<<"No teams found.\n";
+                            break;
+                        }
+                        vector<Team*> teams = facade.getTeams();
+                        if (teams.empty()){
+                            cout << "No teams found.\n";
+                            break;
+                        }
+                        cout << "\033[33m|\nAvailable teams:\n \n \033[0m";
+                        for (size_t i = 0; i < teams.size(); i++){
+                            cout << i + 1 << ". " << teams[i]->getName() << "\n";
+                        }
+                        cout<<"\n";
+
+                        cout << "\033[34m| 1. View team members   | 2. assign work  | 5. | 0. <-- back | \033[0m\n\n";
+                        cout<< "choice - ";
+                        int optionChosen;
+                        optionChosen = readInt();
+                    //idk if this works properly - rei
+                        //TeamsViewMenu(optionChosen, teams&, facade&);
+                        break;
+                    }
+                    case 2:{
+                        
+                        getWorkflows(facade);
+                        break;
+                    }
+                    //view available work
+                    case 3:{
+                    
+                       /*for (workflows that are not assigned){
+                            getWorkflows(facade);
+                        }
+                        */ 
+                        break;
+                    }
+                    //view history
+                    case 4:{
+                        break;
+                    }
+                    //view progrss
+                    case 5:{
+                        cout << facade.getProgress();
+                        break;
+                    }
+                    case 0:{
+                        
+                        cin.get();
+                        break;
+                    }
+                }
+
                 break;
             }
             //Create a new Scenario 
