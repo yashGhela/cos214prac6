@@ -62,3 +62,6 @@ test-asan:
 	             TEST_BUILD=$(BUILD_DIR)/tests_asan TEST_BIN=runTests_asan
 
 -include $(TEST_OBJS:.o=.d)
+
+docs:
+	doxygen Doxyfile
