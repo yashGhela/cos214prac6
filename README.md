@@ -16,7 +16,9 @@ TIVIDY is an intigrated workflow-management system that uses a combination of de
 # How to demo
 
 In Project directory run:
-  - 
+  - `make` to build, then `make run` to start the program
+  - `make test` to run the unit tests
+  - `make docs` to generate the Doxygen documentation (output in `docs/html/index.html`)
 Using Docker Compose:   
   - Run main:   
     docker-compose up --build   
@@ -25,7 +27,8 @@ Using Docker Compose:
   - Run GDB:   
     docker-compose up --profile tools run --rm workflow_gdb   
 to clear:
-  -
+  - `make clean`
+  - `docker-compose down`
 # Members
 
 <table>
@@ -39,6 +42,8 @@ to clear:
       <ul>
         <li>Facade design pattern</li>
         <li>Memento design pattern</li>
+        <li>Unit Testing</li>
+        <li>Doxygen</li>
       </ul>
     </td>
   </tr>

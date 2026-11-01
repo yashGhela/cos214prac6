@@ -1,3 +1,7 @@
+/**
+ * @file Team.cpp
+ * @brief Implementation of Team.
+ */
 #include "Team.h"
 #include "Participant.h"
 

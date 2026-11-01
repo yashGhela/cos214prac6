@@ -1,3 +1,7 @@
+/**
+ * @file VisitorTable.cpp
+ * @brief Implementation of visitorFor().
+ */
 #include "VisitorTable.h"
 #include <map>
 

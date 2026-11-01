@@ -1,3 +1,7 @@
+/**
+ * @file FinishVisitor.cpp
+ * @brief Implementation of FinishVisitor.
+ */
 #include "FinishVisitor.h"
 #include "WorkFlow.h"
 #include "WorkItem.h"

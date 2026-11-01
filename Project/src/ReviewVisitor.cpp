@@ -1,3 +1,7 @@
+/**
+ * @file ReviewVisitor.cpp
+ * @brief Implementation of ReviewVisitor.
+ */
 #include "ReviewVisitor.h"
 #include "WorkFlow.h"
 #include "WorkItem.h"

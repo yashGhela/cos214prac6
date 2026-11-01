@@ -1,3 +1,7 @@
+/**
+ * @file RolesApprover.cpp
+ * @brief Implementation of RolesApprover.
+ */
 #include "RolesApprover.h"
 #include "Participant.h"
 #include <string>

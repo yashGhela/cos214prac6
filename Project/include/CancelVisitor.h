@@ -1,16 +1,39 @@
+/**
+ * @file CancelVisitor.h
+ * @brief Visitor that cancels a component from any state except finished or cancelled.
+ */
 #ifndef CANCELVISITOR_H
 #define CANCELVISITOR_H
 #include "WorkFlowVisitor.h"
 #include <iostream>
-class CancelVisitor : public WorkFlowVisitor // Attempts to change the boolean flags of a workflow component that represent state from any state to cancelled.
+
+/**
+ * @brief Visitor that cancels a component from any state except finished or cancelled.
+ *
+ * Asks the user on standard input to confirm (Y/N) before setting the cancelled state.
+ */
+class CancelVisitor : public WorkFlowVisitor
 {
 private:
     /* data */
 public:
-    CancelVisitor(/* args */){};         // constructor
-    ~CancelVisitor(){};                  // destructor
-    void visit(WorkFlow *wf) override; // Implementation of the visit function of WorkFlowVisitor for a workflow
-    void visit(WorkItem *wi) override; // Implementation of the visit function of WorkFlowVisitor for a workitem
+    /** @brief Constructor. */
+    CancelVisitor(/* args */){};
+
+    /** @brief Destructor. */
+    ~CancelVisitor(){};
+
+    /**
+     * @brief Applies the transition to a WorkFlow.
+     * @param wf The workflow to visit.
+     */
+    void visit(WorkFlow *wf) override;
+    
+    /**
+     * @brief Applies the transition to a WorkItem.
+     * @param wi The work item to visit.
+     */
+    void visit(WorkItem *wi) override;
 };
 
 #endif

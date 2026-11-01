@@ -1,3 +1,7 @@
+/**
+ * @file Roles.cpp
+ * @brief Implementation of the Roles decorator.
+ */
 #include "Roles.h"
 #include "Participant.h"
 #include <string>

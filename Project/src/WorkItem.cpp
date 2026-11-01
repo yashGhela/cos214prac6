@@ -1,3 +1,7 @@
+/**
+ * @file WorkItem.cpp
+ * @brief Implementation of WorkItem.
+ */
 #include "WorkItem.h"
 #include  "VisitorTable.h"
 #include "WorkFlowMemento.h"
