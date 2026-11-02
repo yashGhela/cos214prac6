@@ -66,6 +66,7 @@ to clear:
         <li>Chain of responsibility design pattern</li>
         <li>Participant composite</li>
         <li>Work handler startegy</li>
+        <li>Events</li>
       </ul>
     </td>
   </tr>
